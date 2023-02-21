@@ -12,7 +12,7 @@ public class Room_generator : MonoBehaviour
 
         // generating 32-digit long seed
         string seed = "";
-        seed = "927412473523423741112125615838556";   // for debugging purposes
+        seed = "933632431337312885764214731722567";   // for debugging purposes
         short seed_length = 32;
         if (seed == "")
         { 
@@ -264,16 +264,11 @@ public class Room_generator : MonoBehaviour
                     //Debug.Log("Left corner x value below zero: " + pot_left_corner[0]);
                     continue;
                 }
-                if (Intersects(pot_left_bottom_corner, room_list) ||
-                    Intersects(pot_right_bottom_corner, room_list) ||
-                    Intersects(pot_left_upper_corner, room_list) ||
-                    Intersects(pot_right_upper_corner, room_list) ||
-                    Intersects(new Vector2(pot_x, pot_z), room_list))
+                if (Intersects_improved(new Vector2(pot_x, pot_z), new_dimensions, room_list))
                 {
-                    //Debug.Log("Corner intersects with another room");
+                    //Debug.Log("Potential rooms overlaps another room");
                     continue;
                 }
-
                 if (Overlaps_improved(new Vector2(pot_x, pot_z), new_dimensions, room_list))
                 {
                     //Debug.Log("Potential rooms overlaps another room");
@@ -309,13 +304,9 @@ public class Room_generator : MonoBehaviour
                     //Debug.Log("value below zero: " + pot_left_corner[0]);
                     continue;
                 }
-                if (Intersects(pot_left_bottom_corner, room_list) ||
-                    Intersects(pot_right_bottom_corner, room_list) ||
-                    Intersects(pot_left_upper_corner, room_list) ||
-                    Intersects(pot_right_upper_corner, room_list) ||
-                    Intersects(new Vector2(pot_x, pot_z), room_list))
+                if (Intersects_improved(new Vector2(pot_x, pot_z), new_dimensions, room_list))
                 {
-                    //Debug.Log("Corner intersects with another room");
+                    //Debug.Log("Potential rooms overlaps another room");
                     continue;
                 }
                 if (Overlaps_improved(new Vector2(pot_x, pot_z), new_dimensions, room_list))
@@ -350,13 +341,9 @@ public class Room_generator : MonoBehaviour
                     //Debug.Log("value below zero: " + pot_left_corner[0]);
                     continue;
                 }
-                if (Intersects(pot_left_bottom_corner, room_list) ||
-                    Intersects(pot_right_bottom_corner, room_list) ||
-                    Intersects(pot_left_upper_corner, room_list) ||
-                    Intersects(pot_right_upper_corner, room_list) ||
-                    Intersects(new Vector2(pot_x, pot_z), room_list))
+                if (Intersects_improved(new Vector2(pot_x, pot_z), new_dimensions, room_list))
                 {
-                    //Debug.Log("Corner intersects with another room");
+                    //Debug.Log("Potential rooms overlaps another room");
                     continue;
                 }
                 if (Overlaps_improved(new Vector2(pot_x, pot_z), new_dimensions, room_list))
@@ -391,13 +378,9 @@ public class Room_generator : MonoBehaviour
                     //Debug.Log("value below zero: " + pot_left_corner[0]);
                     continue;
                 }
-                if (Intersects(pot_left_bottom_corner, room_list) ||
-                    Intersects(pot_right_bottom_corner, room_list) ||
-                    Intersects(pot_left_upper_corner, room_list) ||
-                    Intersects(pot_right_upper_corner, room_list) ||
-                    Intersects(new Vector2(pot_x, pot_z), room_list))
+                if (Intersects_improved(new Vector2(pot_x, pot_z), new_dimensions, room_list))
                 {
-                    //Debug.Log("Corner intersects with another room");
+                    //Debug.Log("Potential rooms overlaps another room");
                     continue;
                 }
                 if (Overlaps_improved(new Vector2(pot_x, pot_z), new_dimensions, room_list))
@@ -443,13 +426,29 @@ public class Room_generator : MonoBehaviour
         return false;
     }
 
+    // function to check that potential room doesnt intersect any other room
+    public bool Intersects_improved(Vector2 pot_center, Vector2 pot_dimensions, List<Room> room_list)
+    {
+        Vector2 pot_LB = new Vector2(pot_center[0] - pot_dimensions[0] / 2, pot_center[1] - pot_dimensions[1] / 2);
+        Vector2 pot_RB = new Vector2(pot_center[0] + pot_dimensions[0] / 2, pot_center[1] - pot_dimensions[1] / 2);
+        Vector2 pot_LU = new Vector2(pot_center[0] - pot_dimensions[0] / 2, pot_center[1] + pot_dimensions[1] / 2);
+        Vector2 pot_RU = new Vector2(pot_center[0] + pot_dimensions[0] / 2, pot_center[1] + pot_dimensions[1] / 2);
 
+        if (Intersects(pot_LB + new Vector2(1, 1),   room_list)) return true;
+        if (Intersects(pot_RB + new Vector2(-1, 1),  room_list)) return true;
+        if (Intersects(pot_LU + new Vector2(1, -1),  room_list)) return true;
+        if (Intersects(pot_RU + new Vector2(-1, -1), room_list)) return true;
+
+        return false;
+    }
+
+    // function to check that potential room doesnt overlap any other room
     public bool Overlaps_improved(Vector2 pot_center, Vector2 pot_dimensions, List<Room> room_list)
     {
-        int pot_x_max = (int)pot_center[0] + (int)pot_dimensions[0] / 2 - 5;
-        int pot_x_min = (int)pot_center[0] - (int)pot_dimensions[0] / 2 + 5; // GREEN
-        int pot_z_max = (int)pot_center[1] + (int)pot_dimensions[1] / 2 - 5; // green
-        int pot_z_min = (int)pot_center[1] - (int)pot_dimensions[1] / 2 + 5;
+        int pot_x_max = (int)pot_center[0] + (int)pot_dimensions[0] / 2;
+        int pot_x_min = (int)pot_center[0] - (int)pot_dimensions[0] / 2; // GREEN
+        int pot_z_max = (int)pot_center[1] + (int)pot_dimensions[1] / 2; // green
+        int pot_z_min = (int)pot_center[1] - (int)pot_dimensions[1] / 2;
         
         int x_max;
         int x_min;  // BLUE
@@ -471,55 +470,21 @@ public class Room_generator : MonoBehaviour
             {
                 return false;
             }
+            //if (Intersects(new Vector2(x_max - 2, z_max - 2), room_list)||
+            //    Intersects(new Vector2(x_max - 2, z_min + 2), room_list)||
+            //    Intersects(new Vector2(x_min + 2, z_max - 2), room_list)||
+            //    Intersects(new Vector2(x_min + 2, z_min + 2), room_list))
+            //{
+            //    return true;
+            //}
+            //Debug.DrawLine(new Vector3(x_max - 2, 0, z_max - 2), new Vector3(x_max - 2, 20, z_max - 2), Color.red, 60f);
+            //Debug.DrawLine(new Vector3(x_max - 2, 0, z_min + 2), new Vector3(x_max - 2, 20, z_min + 2), Color.red, 60f);
+            //Debug.DrawLine(new Vector3(x_min + 2, 0, z_max - 2), new Vector3(x_min + 2, 20, z_max - 2), Color.red, 60f);
+            //Debug.DrawLine(new Vector3(x_min + 2, 0, z_min + 2), new Vector3(x_min + 2, 20, z_min + 2), Color.red, 60f);
         }
 
 
         return true;
-    }
-    
-    // function to check that potential room doesn't overlap other rooms
-    public bool Overlaps(Vector2 pot_center, Vector2 pot_dimensions, List<Room> room_list)
-    {
-        Vector2 pot_left_bottom_corner  = new Vector2(pot_center[0] - pot_dimensions[0] / 2, pot_center[1] - pot_dimensions[1] / 2);
-        Vector2 pot_right_bottom_corner = new Vector2(pot_center[0] + pot_dimensions[0] / 2, pot_center[1] - pot_dimensions[1] / 2);
-        Vector2 pot_left_upper_corner   = new Vector2(pot_center[0] - pot_dimensions[0] / 2, pot_center[1] + pot_dimensions[1] / 2);
-        Vector2 pot_right_upper_corner  = new Vector2(pot_center[0] + pot_dimensions[0] / 2, pot_center[1] + pot_dimensions[1] / 2);
-
-        Vector2 x_bounds = new Vector2(pot_left_bottom_corner[0], pot_right_bottom_corner[0]);
-        Vector2 z_bounds = new Vector2(pot_left_bottom_corner[1], pot_left_upper_corner[1]);
-
-        for (int i = 0; i < room_list.Count; i++)
-        {
-            Vector2[] corners = room_list[i].room_corners;
-
-            if ((corners[3][0] >= pot_left_bottom_corner[0] && corners[2][0] <= pot_right_bottom_corner[0]) &&
-               ((corners[3][1] > pot_left_bottom_corner[1]  && corners[3][1] < pot_left_upper_corner[1]) ||
-               (corners[0][1] < pot_left_upper_corner[1]    && corners[0][1] > pot_left_bottom_corner[1])))
-            {
-                return true;
-            }
-
-            if ((corners[0][1] >= pot_right_bottom_corner[1] && corners[3][1] <= pot_right_upper_corner[1]) &&
-               ((corners[0][0] < pot_right_bottom_corner[1]  && corners[0][0] > pot_left_upper_corner[1]) ||
-               (corners[1][0] > pot_left_bottom_corner[0]    && corners[1][0] < pot_right_bottom_corner[0])))
-            {
-                return true;
-            }
-            if (room_list[i].room_center[0] > x_bounds[0] &&
-                room_list[i].room_center[0] < x_bounds[1] &&
-                room_list[i].room_center[1] > z_bounds[0] &&
-                room_list[i].room_center[1] < z_bounds[1])
-            {
-                return true;
-            }
-
-            /*for (int j = 0; j < corners.Length; j++)
-            { 
-                if(corners[j][0] < pot_right_bottom_corner[0] &&
-                   corners[j][0] < po)
-            }*/
-        }
-        return false;
     }
 
     // Function to rescale number to different scale
@@ -658,7 +623,17 @@ public struct Room
                     if (wall.transform.position.x == door[0] &&
                         wall.transform.position.z >= corner1[1] &&
                         wall.transform.position.z <= corner2[1])
-                    { 
+                    {
+                        if (wall.transform.position.z + wall.transform.localScale.z / 2 > corner2[1])
+                        {
+                            corner2[1] = wall.transform.position.z + wall.transform.localScale.z / 2;
+                        }
+                        if (wall.transform.position.z - wall.transform.localScale.z / 2 < corner1[1])
+                        {
+                            corner1[1] = wall.transform.position.z - wall.transform.localScale.z / 2;
+
+                        }
+
                         UnityEngine.Object.Destroy(wall);
                     }
                 }
@@ -693,6 +668,15 @@ public struct Room
                         wall.transform.position.x >= corner1[0] &&
                         wall.transform.position.x <= corner2[0])
                     {
+                        if (wall.transform.position.x + wall.transform.localScale.x / 2 > corner2[0])
+                        {
+                            corner2[0] = wall.transform.position.x + wall.transform.localScale.x / 2;
+                        }
+                        if (wall.transform.position.x - wall.transform.localScale.x / 2 < corner1[0])
+                        {
+                            corner1[0] = wall.transform.position.x - wall.transform.localScale.x / 2;
+
+                        }
                         UnityEngine.Object.Destroy(wall);
                     }
                 }
