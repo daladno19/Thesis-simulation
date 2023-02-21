@@ -488,19 +488,19 @@ public class Room_generator : MonoBehaviour
     }
 
     // Function to rescale number to different scale
-    public float Map(float x, float in_min, float in_max, float out_min, float out_max) 
+    public static float Map(float x, float in_min, float in_max, float out_min, float out_max) 
     {
         return (x - in_min) * (out_max - out_min) / (in_max - in_min) + out_min;
     }
 
     // function to generate random int in specified scale from seed
-    public int Random_int_in_scale(string seed, int pos, int in_min, int in_max, int out_min, int out_max)
+    public static int Random_int_in_scale(string seed, int pos, int in_min, int in_max, int out_min, int out_max)
     {
         return (int)Mathf.Round(Map(float.Parse(seed.Substring(pos, 1)), in_min, in_max, out_min, out_max));
     }
 
     //function to round ints to 10's
-    public int Round_to_tens(int num)
+    public static int Round_to_tens(int num)
     {
         if (num % 10 >= 5)
         {
@@ -626,11 +626,11 @@ public struct Room
                     {
                         if (wall.transform.position.z + wall.transform.localScale.z / 2 > corner2[1])
                         {
-                            corner2[1] = wall.transform.position.z + wall.transform.localScale.z / 2;
+                            corner2[1] = Room_generator.Round_to_tens((int)(wall.transform.position.z + wall.transform.localScale.z / 2 - 1));
                         }
                         if (wall.transform.position.z - wall.transform.localScale.z / 2 < corner1[1])
                         {
-                            corner1[1] = wall.transform.position.z - wall.transform.localScale.z / 2;
+                            corner1[1] = Room_generator.Round_to_tens((int)(wall.transform.position.z - wall.transform.localScale.z / 2 + 1));
 
                         }
 
@@ -670,11 +670,11 @@ public struct Room
                     {
                         if (wall.transform.position.x + wall.transform.localScale.x / 2 > corner2[0])
                         {
-                            corner2[0] = wall.transform.position.x + wall.transform.localScale.x / 2;
+                            corner2[0] = Room_generator.Round_to_tens((int)(wall.transform.position.x + wall.transform.localScale.x / 2));
                         }
                         if (wall.transform.position.x - wall.transform.localScale.x / 2 < corner1[0])
                         {
-                            corner1[0] = wall.transform.position.x - wall.transform.localScale.x / 2;
+                            corner1[0] = Room_generator.Round_to_tens((int)(wall.transform.position.x - wall.transform.localScale.x / 2));
 
                         }
                         UnityEngine.Object.Destroy(wall);
