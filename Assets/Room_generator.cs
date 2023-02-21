@@ -12,7 +12,7 @@ public class Room_generator : MonoBehaviour
 
         // generating 32-digit long seed
         string seed = "";
-        //seed = "923365353788221413642143826658245";   // for debugging purposes
+        seed = "923365353788221413642143826658245";   // for debugging purposes
         short seed_length = 32;
         if (seed == "")
         { 
