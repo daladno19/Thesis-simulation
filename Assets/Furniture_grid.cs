@@ -38,26 +38,28 @@ public class Furniture_grid
 
         //string[] kitchen_furniture = { "Kitchen_table", "Kitchen_stove", "Kitchen_freezer", "Chair", "Kitchen_drawer"};
         float density = Room_generator.Map(float.Parse(seed.Substring(15, 1)), 1f, 9f, 0.3f, 0.5f);
+
+        Furniture_delegate[] kitchen_furniture = new Furniture_delegate[5];
+        kitchen_furniture[0] = new Furniture_delegate(Furniture.kitchenTable);
+
         while (density < Get_current_density(grid))
         {
+            // choose new furniture piece to place
             switch (room_type)
             {
                 case "kitchen":
-                    List<string> furniture_list = new List<string> { "Kitchen_table", "Kitchen_stove", "Kitchen_freezer", "Chair", "Kitchen_drawer" };
-
-                    break;
-                case "bedroom":
-                    break;
-                case "officeroom":
-                    break;
-                case "livingroom":
-                    break;
-                case "batroom":
+                    Furniture piece = kitchen_furniture[0](); // TODO random number instead of zero
                     break;
             }
+            // find all potential placements
+            // chode random place and place prefab there
+            // rewrite nodes as occupied
         }
         
     }
+    // fucking magic 0 idea what a delegate is
+    public delegate Furniture Furniture_delegate();
+
     // debugging function to draw rays on all occupied tiles
     public void Draw_obstacles(Furniture_tile[,] grid)
     {
