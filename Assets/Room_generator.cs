@@ -12,7 +12,7 @@ public class Room_generator : MonoBehaviour
 
         // generating 32-digit long seed
         string seed = "";
-        seed = "933632431337312885764214731722567";   // for debugging purposes
+        //seed = "933632431337312885764214731722567";   // for debugging purposes
         short seed_length = 32;
         if (seed == "")
         { 
@@ -65,6 +65,7 @@ public class Room_generator : MonoBehaviour
         //int door_width = 10;
         
         int number_of_rooms = Random_int_in_scale(seed, 0, 1, 9, 2, 5);
+        number_of_rooms = 1; // debug
         string[] room_types = { "bedroom", "bathroom", "kitchen", "livingroom", "officeroom" };
         Vector2[] room_type_dimensions = { new Vector2(30, 70), new Vector2(20, 40), new Vector2(30, 60), new Vector2(40, 80), new Vector2(30, 50) };
         List<Room> room_list = new List<Room>();
@@ -105,6 +106,8 @@ public class Room_generator : MonoBehaviour
             //make a door between new_room and prev_room |===============| ToFix |===============|
             Cut_door(new_room, prev_room);
         }
+
+        Furniture_grid grid = new Furniture_grid(room_list[0].room_center, room_list[0].room_dimensions, room_list[0].room_type);
         // TODO populate with furniture
     }
 
