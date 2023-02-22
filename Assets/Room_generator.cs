@@ -43,10 +43,10 @@ public class Room_generator : MonoBehaviour
         13 - 3rd room center
         14 - 4th room center
         15 - 5th room center
-        16 -
-        17 - 
+        16 - furniture density
+        17 -   
         18 - 
-        19 - 
+        19 -   
         20 - 
         21 -
         22 -
@@ -63,7 +63,7 @@ public class Room_generator : MonoBehaviour
         =====================
         */
         //int door_width = 10;
-        
+
         int number_of_rooms = Random_int_in_scale(seed, 0, 1, 9, 2, 5);
         number_of_rooms = 1; // debug
         string[] room_types = { "bedroom", "bathroom", "kitchen", "livingroom", "officeroom" };
@@ -71,10 +71,10 @@ public class Room_generator : MonoBehaviour
         List<Room> room_list = new List<Room>();
 
         // generating first room
-        Vector2 new_dimensions = new Vector2(Round_to_tens(Random_int_in_scale(seed, 0, 1, 9, (int)room_type_dimensions[0][0], (int)room_type_dimensions[0][1])),
-                                            Round_to_tens(Random_int_in_scale(seed, 6, 1, 9, (int)room_type_dimensions[0][0], (int)room_type_dimensions[0][1])));
+        Vector2 new_dimensions = new Vector2(Round_to_tens(Random_int_in_scale(seed, 0, 1, 9, (int)room_type_dimensions[2][0], (int)room_type_dimensions[2][1])),
+                                            Round_to_tens(Random_int_in_scale(seed, 6, 1, 9, (int)room_type_dimensions[2][0], (int)room_type_dimensions[2][1])));
         Vector2 new_center = new Vector2(new_dimensions[0] / 2, new_dimensions[1] / 2);
-        room_list.Add(new Room(new_center, new_dimensions, 1, "bedroom"));
+        room_list.Add(new Room(new_center, new_dimensions, 1, "kitchen"));
 
         // generating other rooms
         for (int i = 1; i < number_of_rooms; i++)
@@ -107,7 +107,7 @@ public class Room_generator : MonoBehaviour
             Cut_door(new_room, prev_room);
         }
 
-        Furniture_grid grid = new Furniture_grid(room_list[0].room_center, room_list[0].room_dimensions, room_list[0].room_type);
+        Furniture_grid grid = new Furniture_grid(room_list[0].room_center, room_list[0].room_dimensions, room_list[0].room_type, seed);
         // TODO populate with furniture
     }
 
