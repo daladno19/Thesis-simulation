@@ -7,12 +7,16 @@ public class Furniture_grid
     public Furniture_tile[,] grid;
     public Vector2 room_dimensions;
     public Vector2 room_center;
+    public string seed;
+    public int iterator;
 
+    // TODO create seed, overlap function 
     public Furniture_grid(Vector2 room_center, Vector2 room_dimensions, string room_type, string seed)
     {
         this.grid = new Furniture_tile[(int)room_dimensions[0]+1,(int)room_dimensions[1]+1];
         this.room_dimensions = room_dimensions;
         this.room_center = room_center;
+        System.Random rnd = new System.Random((int)room_center[1]);
 
         int pos_x = (int)room_center[0] - (int)room_dimensions[0] / 2;
         int pos_z = (int)room_center[1] - (int)room_dimensions[1] / 2;
@@ -56,7 +60,7 @@ public class Furniture_grid
                     furniture_piece = kitchen_furniture[0](); // TODO random number instead of zero
                     break;
                 default:
-                    furniture_piece = Furniture.debugBox(); // TODO random number instead of zero
+                    furniture_piece = Furniture.debugBox();
                     break;
             }
 
@@ -71,23 +75,34 @@ public class Furniture_grid
     // function to find all potential furniture placements
     public List <Vector2> findPotPoints(Furniture piece)
     {
-
+        foreach (Furniture_tile tile in this.grid)
+        {
+            
+        }
         return new List<Vector2>();
+    }
+    public bool Overlaps(Vector2 array_point)
+    {
+        if (!this.grid[(int)array_point[0], (int)array_point[1]].available)
+        {
+            return true;
+        }
+        return false;
     }
 
     // global coords to array coords
     public Vector2 global_to_array(Vector2 global_coords)
     {
-        int array_i = (int)global_coords[0] - (int)this.room_center[0];
-        int array_j = (int)global_coords[1] - (int)this.room_center[1];
+        int array_i = (int)global_coords[0] - (int)this.room_center[0] + (int)this.room_dimensions[0] / 2;
+        int array_j = (int)global_coords[1] - (int)this.room_center[1] + (int)this.room_dimensions[1] / 2;
         return new Vector2(array_i, array_j);
     }
 
     // array coords to global coords
     public Vector2 array_to_global(Vector2 global_coords)
     {
-        int pos_x = (int)global_coords[0] + (int)this.room_center[0];
-        int pos_y = (int)global_coords[1] + (int)this.room_center[1];
+        int pos_x = (int)global_coords[0] + (int)this.room_center[0] - (int)this.room_dimensions[0] / 2;
+        int pos_y = (int)global_coords[1] + (int)this.room_center[1] - (int)this.room_dimensions[1] / 2;
         return new Vector2(pos_x, pos_y);
     }
 
