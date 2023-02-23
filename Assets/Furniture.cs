@@ -17,12 +17,12 @@ public class Furniture
 
     public static Furniture kitchenTable()
     {
-        return new Furniture(new Vector2(18,14), "Assets/Resources/Prefabs/Kitchen_Table.prefab", "any");
+        return new Furniture(new Vector2(18,14), "Prefabs/Kitchen_Table", "any");
     }
 
     public static Furniture debugBox()
     {
-        return new Furniture(new Vector2(4, 4), "Assets/Resources/Prefabs/Kitchen_Table.prefab", "any");
+        return new Furniture(new Vector2(4, 4), "Prefabs/Debug_Box", "any");
     }
     // Start is called before the first frame update
     void Start()

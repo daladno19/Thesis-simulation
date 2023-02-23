@@ -95,7 +95,7 @@ public class Room_generator : MonoBehaviour
             room_list.Add(new Room(new_center, new_dimensions, i+1, room_types[room_type]));
 
 
-            Debug.Log("|| room ID: " + room_list[i].room_ID + "|| room type: " + room_list[i].room_type);
+            // Debug.Log("|| room ID: " + room_list[i].room_ID + "|| room type: " + room_list[i].room_type);
             // get new room
             Room new_room  = room_list[i];
             
@@ -105,7 +105,7 @@ public class Room_generator : MonoBehaviour
             
             //make a door between new_room and prev_room |===============| ToFix |===============|
             Cut_door(new_room, prev_room);
-            Furniture_grid grid = new Furniture_grid(room_list[i].room_center, room_list[i].room_dimensions, room_list[i].room_type, seed);
+            Furniture_grid grid = new  Furniture_grid(room_list[i].room_center, room_list[i].room_dimensions, room_list[i].room_type, seed);
 
         }
 

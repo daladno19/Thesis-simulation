@@ -7,8 +7,6 @@ public class Furniture_grid
     public Furniture_tile[,] grid;
     public Vector2 room_dimensions;
     public Vector2 room_center;
-    public string seed;
-    public int iterator;
 
     // TODO create seed, overlap function 
     public Furniture_grid(Vector2 room_center, Vector2 room_dimensions, string room_type, string seed)
@@ -40,18 +38,15 @@ public class Furniture_grid
             pos_z = (int)room_center[1] - (int)room_dimensions[1] / 2;
             pos_x++;
         }
-        // debugging purposes
-        Draw_obstacles(this.grid);
 
-
-        //string[] kitchen_furniture = { "Kitchen_table", "Kitchen_stove", "Kitchen_freezer", "Chair", "Kitchen_drawer"};
-        float density = Room_generator.Map(float.Parse(seed.Substring(15, 1)), 1f, 9f, 0.3f, 0.5f);
+        float density = 0.7f;
 
         Furniture_delegate[] kitchen_furniture = new Furniture_delegate[5];
         kitchen_furniture[0] = new Furniture_delegate(Furniture.kitchenTable);
-
-        while (density < Get_current_density(grid))
+        Debug.Log("density: " + density + " || curr density" + Get_current_density(this.grid));
+        while (density > Get_current_density(this.grid))
         {
+            //Debug.Log("went inside");
             // choose new furniture piece to place
             Furniture furniture_piece;
             switch (room_type)
@@ -67,12 +62,45 @@ public class Furniture_grid
 
             // find all potential placements
             List<Vector2> pot_placements = findPotPoints(furniture_piece);
-            
-            // chode random place and place prefab there
-            // rewrite nodes as occupied
+            Vector2 center = pot_placements[rnd.Next(0, pot_placements.Count)];
+            Occupy_grid(center, furniture_piece);
+            Vector2 global_center = array_to_global(center);
+            GameObject.Instantiate(Resources.Load(furniture_piece.path), new Vector3(global_center[0], 0, global_center[1]), Quaternion.identity);
+            // chose random place and place prefab there
+
         }
+        Draw_obstacles(this.grid);
+
 
     }
+
+    // debugging function
+    private void OnDrawGizmos()
+    {
+        // TODO
+    }
+
+    // function to occupy tiles taken by new furniture piece
+    public void Occupy_grid(Vector2 center_arr, Furniture piece)
+    {
+        for (int i = (int)center_arr[0] - (int)piece.dimensions[0] / 2 - 3;
+            i < (int)center_arr[0] + (int)piece.dimensions[0] / 2 + 3; i++)
+        {
+            for (int j = (int)center_arr[1] - (int)piece.dimensions[1] / 2 - 3;
+            j < (int)center_arr[1] + (int)piece.dimensions[1] / 2 + 3; j++)
+            {
+                if (i < 0 || j < 0 || i > grid.GetLength(0) || j > grid.GetLength(1))
+                {
+                    continue;
+                }
+                else
+                {
+                    this.grid[i, j].available = false;
+                }
+            }
+        }
+    }
+
     // function to find all potential furniture placements
     public List<Vector2> findPotPoints(Furniture piece)
     {
@@ -102,6 +130,8 @@ public class Furniture_grid
         }
         return new List<Vector2>();
     }
+
+    // function to check overlaping
     public bool Overlaps(Vector2 array_point)
     {
         if (!this.grid[(int)array_point[0], (int)array_point[1]].available)
@@ -111,7 +141,7 @@ public class Furniture_grid
         return false;
     }
 
-
+    // function to check out of bounds
     public bool Out_of_bounds(Furniture piece, Vector2 pos_arr)
     {
         Vector2 LB_corner = new Vector2(pos_arr[0] - piece.dimensions[0] / 2, pos_arr[1] - piece.dimensions[1] / 2);
@@ -129,6 +159,7 @@ public class Furniture_grid
 
         return false;
     }
+
     // global coords to array coords
     public Vector2 global_to_array(Vector2 global_coords)
     {
@@ -163,13 +194,15 @@ public class Furniture_grid
     // function to calculate current density
     public float Get_current_density(Furniture_tile[,] grid)
     {
-        int occupied = 0;
-        int all = grid.Length;
+        float occupied = 0;
+        float all = grid.Length;
+        //Debug.Log("occupied: " + occupied + " || all" + all) ;
+
         foreach (Furniture_tile tile in grid)
         {
             if (!tile.available) occupied++;
+            //Debug.Log("YEp");
         }
-        
         return occupied/all;
     }
 }
