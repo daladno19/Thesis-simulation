@@ -77,7 +77,23 @@ public class Furniture_grid
     {
         foreach (Furniture_tile tile in this.grid)
         {
-            
+            Vector2 LB_corner = new Vector2(tile.pos_x - piece.dimensions[0] / 2, tile.pos_z - piece.dimensions[0] / 2);
+            Vector2 RB_corner = new Vector2(tile.pos_x + piece.dimensions[0] / 2, tile.pos_z - piece.dimensions[0] / 2);
+            Vector2 LU_corner = new Vector2(tile.pos_x - piece.dimensions[0] / 2, tile.pos_z + piece.dimensions[0] / 2);
+            Vector2 RU_corner = new Vector2(tile.pos_x + piece.dimensions[0] / 2, tile.pos_z + piece.dimensions[0] / 2);
+
+            switch (piece.placement)
+            {
+                default:
+                    if (!tile.available) continue;
+                    if (Out_of_bounds(piece)) continue;
+                    if (Overlaps(LB_corner) ||
+                        Overlaps(RB_corner) ||
+                        Overlaps(LU_corner) ||
+                        Overlaps(RU_corner)) continue;
+                    break;
+
+            }
         }
         return new List<Vector2>();
     }
@@ -90,6 +106,11 @@ public class Furniture_grid
         return false;
     }
 
+
+    public bool Out_of_bounds(Furniture piece)
+    {
+        return false;
+    }
     // global coords to array coords
     public Vector2 global_to_array(Vector2 global_coords)
     {

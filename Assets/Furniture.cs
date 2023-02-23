@@ -6,7 +6,7 @@ public class Furniture
 {
     public Vector2 dimensions;
     public string path;
-    string placement;
+    public string placement;
 
     public Furniture(Vector2 dimensions, string path, string placement)
     {
