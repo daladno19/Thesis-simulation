@@ -13,7 +13,7 @@ public class Furniture_grid
     // TODO create seed, overlap function 
     public Furniture_grid(Vector2 room_center, Vector2 room_dimensions, string room_type, string seed)
     {
-        this.grid = new Furniture_tile[(int)room_dimensions[0]+1,(int)room_dimensions[1]+1];
+        this.grid = new Furniture_tile[(int)room_dimensions[0] + 1, (int)room_dimensions[1] + 1];
         this.room_dimensions = room_dimensions;
         this.room_center = room_center;
         System.Random rnd = new System.Random((int)room_center[1]);
@@ -58,6 +58,7 @@ public class Furniture_grid
             {
                 case "kitchen":
                     furniture_piece = kitchen_furniture[0](); // TODO random number instead of zero
+
                     break;
                 default:
                     furniture_piece = Furniture.debugBox();
@@ -66,15 +67,16 @@ public class Furniture_grid
 
             // find all potential placements
             List<Vector2> pot_placements = findPotPoints(furniture_piece);
-
+            
             // chode random place and place prefab there
             // rewrite nodes as occupied
         }
-        
+
     }
     // function to find all potential furniture placements
-    public List <Vector2> findPotPoints(Furniture piece)
+    public List<Vector2> findPotPoints(Furniture piece)
     {
+        List<Vector2> pot_places = new List<Vector2>();
         foreach (Furniture_tile tile in this.grid)
         {
             Vector2 LB_corner = new Vector2(tile.pos_x - piece.dimensions[0] / 2, tile.pos_z - piece.dimensions[0] / 2);
@@ -86,11 +88,14 @@ public class Furniture_grid
             {
                 default:
                     if (!tile.available) continue;
-                    if (Out_of_bounds(piece)) continue;
+                    if (Out_of_bounds(piece, new Vector2(tile.pos_x, tile.pos_z)))
+                        continue;
                     if (Overlaps(LB_corner) ||
                         Overlaps(RB_corner) ||
                         Overlaps(LU_corner) ||
-                        Overlaps(RU_corner)) continue;
+                        Overlaps(RU_corner))
+                        continue;
+                    pot_places.Add(new Vector2(tile.pos_x, tile.pos_z));
                     break;
 
             }
@@ -107,8 +112,21 @@ public class Furniture_grid
     }
 
 
-    public bool Out_of_bounds(Furniture piece)
+    public bool Out_of_bounds(Furniture piece, Vector2 pos_arr)
     {
+        Vector2 LB_corner = new Vector2(pos_arr[0] - piece.dimensions[0] / 2, pos_arr[1] - piece.dimensions[1] / 2);
+        Vector2 RB_corner = new Vector2(pos_arr[0] + piece.dimensions[0] / 2, pos_arr[1] - piece.dimensions[1] / 2);
+        Vector2 LU_corner = new Vector2(pos_arr[0] - piece.dimensions[0] / 2, pos_arr[1] + piece.dimensions[1] / 2);
+        Vector2 RU_corner = new Vector2(pos_arr[0] + piece.dimensions[0] / 2, pos_arr[1] + piece.dimensions[1] / 2);
+
+        if (LB_corner[0] < 0 ||
+            LB_corner[1] < 0 ||
+            RB_corner[0] >= this.grid.GetLength(0) ||
+            RU_corner[1] >= this.grid.GetLength(1))
+        {
+            return true;
+        }
+
         return false;
     }
     // global coords to array coords
