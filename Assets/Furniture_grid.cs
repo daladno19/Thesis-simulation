@@ -5,10 +5,14 @@ using UnityEngine;
 public class Furniture_grid
 {
     public Furniture_tile[,] grid;
+    public Vector2 room_dimensions;
+    public Vector2 room_center;
 
     public Furniture_grid(Vector2 room_center, Vector2 room_dimensions, string room_type, string seed)
     {
         this.grid = new Furniture_tile[(int)room_dimensions[0]+1,(int)room_dimensions[1]+1];
+        this.room_dimensions = room_dimensions;
+        this.room_center = room_center;
 
         int pos_x = (int)room_center[0] - (int)room_dimensions[0] / 2;
         int pos_z = (int)room_center[1] - (int)room_dimensions[1] / 2;
@@ -45,18 +49,48 @@ public class Furniture_grid
         while (density < Get_current_density(grid))
         {
             // choose new furniture piece to place
+            Furniture furniture_piece;
             switch (room_type)
             {
                 case "kitchen":
-                    Furniture piece = kitchen_furniture[0](); // TODO random number instead of zero
+                    furniture_piece = kitchen_furniture[0](); // TODO random number instead of zero
+                    break;
+                default:
+                    furniture_piece = Furniture.debugBox(); // TODO random number instead of zero
                     break;
             }
+
             // find all potential placements
+            List<Vector2> pot_placements = findPotPoints(furniture_piece);
+
             // chode random place and place prefab there
             // rewrite nodes as occupied
         }
         
     }
+    // function to find all potential furniture placements
+    public List <Vector2> findPotPoints(Furniture piece)
+    {
+
+        return new List<Vector2>();
+    }
+
+    // global coords to array coords
+    public Vector2 global_to_array(Vector2 global_coords)
+    {
+        int array_i = (int)global_coords[0] - (int)this.room_center[0];
+        int array_j = (int)global_coords[1] - (int)this.room_center[1];
+        return new Vector2(array_i, array_j);
+    }
+
+    // array coords to global coords
+    public Vector2 array_to_global(Vector2 global_coords)
+    {
+        int pos_x = (int)global_coords[0] + (int)this.room_center[0];
+        int pos_y = (int)global_coords[1] + (int)this.room_center[1];
+        return new Vector2(pos_x, pos_y);
+    }
+
     // fucking magic 0 idea what a delegate is
     public delegate Furniture Furniture_delegate();
 
