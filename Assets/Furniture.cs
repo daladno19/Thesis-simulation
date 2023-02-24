@@ -12,7 +12,7 @@ public class Furniture
     {
         this.dimensions = dimensions;
         this.path = path;
-        this.placement = placement; // middle || wall
+        this.placement = placement; // any || wall
     }
 
     public static Furniture kitchenTable()

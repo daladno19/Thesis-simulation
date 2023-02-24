@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -52,7 +53,7 @@ public class Furniture_grid
             switch (room_type)
             {
                 case "kitchen":
-                    furniture_piece = kitchen_furniture[0](); // TODO random number instead of zero
+                    furniture_piece = Furniture.debugBox(); // TODO random number instead of zero
 
                     break;
                 default:
@@ -62,6 +63,12 @@ public class Furniture_grid
 
             // find all potential placements
             List<Vector2> pot_placements = findPotPoints(furniture_piece);
+
+            if (pot_placements.Count == 0)
+            {
+                Debug.Log("cant place any");
+                break;
+            }
             Vector2 center = pot_placements[rnd.Next(0, pot_placements.Count)];
             Occupy_grid(center, furniture_piece);
             Vector2 global_center = array_to_global(center);
@@ -117,11 +124,11 @@ public class Furniture_grid
                 default:
                     if (!tile.available) continue;
                     if (Out_of_bounds(piece, new Vector2(tile.pos_x, tile.pos_z)))
+                    {
+                        //Debug.Log("Out of bounds");
                         continue;
-                    if (Overlaps(LB_corner) ||
-                        Overlaps(RB_corner) ||
-                        Overlaps(LU_corner) ||
-                        Overlaps(RU_corner))
+                    }
+                    if (Overlaps(new Vector2(tile.pos_x, tile.pos_z), piece))
                         continue;
                     pot_places.Add(new Vector2(tile.pos_x, tile.pos_z));
                     break;
@@ -132,9 +139,40 @@ public class Furniture_grid
     }
 
     // function to check overlaping
+    public bool Overlaps(Vector2 array_pos, Furniture piece)
+    {
+        array_pos = global_to_array(array_pos);
+        Vector2 LB_corner = new Vector2(array_pos[0] - piece.dimensions[0] / 2, array_pos[1] - piece.dimensions[1] / 2);
+        Vector2 RB_corner = new Vector2(array_pos[0] + piece.dimensions[0] / 2, array_pos[1] - piece.dimensions[1] / 2);
+        Vector2 LU_corner = new Vector2(array_pos[0] - piece.dimensions[0] / 2, array_pos[1] + piece.dimensions[1] / 2);
+        Vector2 RU_corner = new Vector2(array_pos[0] + piece.dimensions[0] / 2, array_pos[1] + piece.dimensions[1] / 2);
+
+        try
+        {
+            if (!this.grid[(int)LB_corner[0], (int)LB_corner[1]].available) return true;
+            if (!this.grid[(int)RB_corner[0], (int)RB_corner[1]].available) return true;
+            if (!this.grid[(int)LU_corner[0], (int)LU_corner[1]].available) return true;
+            if (!this.grid[(int)RU_corner[0], (int)RU_corner[1]].available) return true;
+        }
+        catch (IndexOutOfRangeException e)
+        {
+            return true;
+        }
+
+        return false;
+    }
+
     public bool Overlaps(Vector2 array_point)
     {
-        if (!this.grid[(int)array_point[0], (int)array_point[1]].available)
+        array_point = global_to_array(array_point); // now it's actually array coords and not global
+        Debug.Log("||point: " + array_point + "bounds: " + this.grid.GetLength(0) + " x " + this.grid.GetLength(1));
+        if (array_point[0] < 0 || array_point[1] < 0 ||
+            array_point[0] > this.grid.GetLength(0) ||
+            array_point[1] > this.grid.GetLength(1))
+        {
+            return true;
+        }
+        if (!this.grid[(int)array_point[0], (int)array_point[1]].available) // TODO
         {
             return true;
         }
@@ -148,11 +186,12 @@ public class Furniture_grid
         Vector2 RB_corner = new Vector2(pos_arr[0] + piece.dimensions[0] / 2, pos_arr[1] - piece.dimensions[1] / 2);
         Vector2 LU_corner = new Vector2(pos_arr[0] - piece.dimensions[0] / 2, pos_arr[1] + piece.dimensions[1] / 2);
         Vector2 RU_corner = new Vector2(pos_arr[0] + piece.dimensions[0] / 2, pos_arr[1] + piece.dimensions[1] / 2);
-
+        //Debug.Log("||LB=" + LB_corner + "||LU=" + LU_corner+"||LB=" + RB_corner+"||LB=" + RU_corner);
+        //Debug.Log(this.grid.GetLength(0) + " x " + this.grid.GetLength(1));
         if (LB_corner[0] < 0 ||
             LB_corner[1] < 0 ||
-            RB_corner[0] >= this.grid.GetLength(0) ||
-            RU_corner[1] >= this.grid.GetLength(1))
+            RB_corner[0] > this.grid.GetLength(0) ||
+            RU_corner[1] > this.grid.GetLength(1))
         {
             return true;
         }
