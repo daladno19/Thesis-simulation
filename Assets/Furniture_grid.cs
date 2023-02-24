@@ -71,8 +71,8 @@ public class Furniture_grid
             }
             Vector2 center = pot_placements[rnd.Next(0, pot_placements.Count)];
             Occupy_grid(center, furniture_piece);
-            Vector2 global_center = array_to_global(center);
-            GameObject.Instantiate(Resources.Load(furniture_piece.path), new Vector3(global_center[0], 0, global_center[1]), Quaternion.identity);
+            //Vector2 global_center = array_to_global(center);
+            GameObject.Instantiate(Resources.Load(furniture_piece.path), new Vector3(center[0], 0, center[1]), Quaternion.identity);
             // chose random place and place prefab there
 
         }
@@ -96,7 +96,7 @@ public class Furniture_grid
             for (int j = (int)center_arr[1] - (int)piece.dimensions[1] / 2 - 3;
             j < (int)center_arr[1] + (int)piece.dimensions[1] / 2 + 3; j++)
             {
-                if (i < 0 || j < 0 || i > grid.GetLength(0) || j > grid.GetLength(1))
+                if (i < 0 || j < 0 || i >= grid.GetLength(0) || j >= grid.GetLength(1))
                 {
                     continue;
                 }
@@ -109,95 +109,64 @@ public class Furniture_grid
     }
 
     // function to find all potential furniture placements
+    /*
+     *  [x] Function should recieve a piece of furniture, to get it's dimensions
+     *  [ ] Function should iterate through all local coords and check wether the placement is viable
+     *       [ ] Placement doesnt overlap accupied tiles
+     *       [ ] Placement doesn't get out of bounds
+     *       [ ] Placement is suitible for furniture type
+     *  [ ] Function should add all possible placements to the list (global coords)
+     *  [x] Function should return the list
+     */
     public List<Vector2> findPotPoints(Furniture piece)
     {
         List<Vector2> pot_places = new List<Vector2>();
-        foreach (Furniture_tile tile in this.grid)
+
+        switch (piece.placement)
         {
-            Vector2 LB_corner = new Vector2(tile.pos_x - piece.dimensions[0] / 2, tile.pos_z - piece.dimensions[0] / 2);
-            Vector2 RB_corner = new Vector2(tile.pos_x + piece.dimensions[0] / 2, tile.pos_z - piece.dimensions[0] / 2);
-            Vector2 LU_corner = new Vector2(tile.pos_x - piece.dimensions[0] / 2, tile.pos_z + piece.dimensions[0] / 2);
-            Vector2 RU_corner = new Vector2(tile.pos_x + piece.dimensions[0] / 2, tile.pos_z + piece.dimensions[0] / 2);
-
-            switch (piece.placement)
-            {
-                default:
-                    if (!tile.available) continue;
-                    if (Out_of_bounds(piece, new Vector2(tile.pos_x, tile.pos_z)))
-                    {
-                        Debug.Log("Out of bounds");
-                        continue;
-                    }
-                    if (Overlaps(new Vector2(tile.array_i, tile.array_j), piece))
-                    {
-                        Debug.Log("Overlaps");
-                        continue;
-                    }
-                    pot_places.Add(new Vector2(tile.pos_x, tile.pos_z));
-                    break;
-
-            }
+            default: // can be placed anywhere (placeholder)
+                foreach (Furniture_tile tile in this.grid)
+                {
+                    if (!IsValid(tile, piece)) continue;
+                    pot_places.Add(new Vector2(tile.pos_x, tile.pos_x));
+                }
+                break;
         }
-        return new List<Vector2>();
+
+        return pot_places;
     }
 
-    // function to check overlaping
-    public bool Overlaps(Vector2 array_pos, Furniture piece)
+
+    // function to check wether placement is valid
+    public bool IsValid(Furniture_tile tile, Furniture piece)
     {
-        for (int i = (int)array_pos[0] - (int)piece.dimensions[0] / 2;
-            i < (int)array_pos[0] + (int)piece.dimensions[0] / 2; i++)
+        int length = (int)piece.dimensions[0]; // x
+        int width  = (int)piece.dimensions[1]; // z
+        int x_arr_bounds = this.grid.GetLength(0);
+        int z_arr_bounds = this.grid.GetLength(1);
+
+        // check out of bounds
+        if (tile.array_i - length / 2 < 0 ||
+            tile.array_j - width / 2  < 0 ||
+            tile.array_i + length / 2 >= x_arr_bounds ||
+            tile.array_j + width / 2  >= z_arr_bounds)
         {
-            for (int j = (int)array_pos[1] - (int)piece.dimensions[1] / 2;
-                j < (int)array_pos[1] + (int)piece.dimensions[1] / 2; j++)
+            Debug.Log("out of bounds");
+            return false;
+        }
+        // check overlaping
+        for (int i = tile.array_i - length / 2; i < tile.array_i + length / 2; i++)
+        {
+            for (int j = tile.array_j - width / 2; j < tile.array_j + width / 2; j++)
             {
-                if (i < 0 || j < 0 || i > this.grid.GetLength(0) || j > this.grid.GetLength(1))
+                if (!grid[i, j].available)
                 {
-                    continue;
-                }
-                if (!this.grid[i, j].available)
-                {
-                    return true;
+                    Debug.Log("overlaps");
+                    return false;
                 }
             }
         }
-        return false;
-    }
-    // vroken sed: 954445584575241534256184552323454
-    public bool Overlaps(Vector2 array_point)
-    {
-        array_point = global_to_array(array_point); // now it's actually array coords and not global
-        Debug.Log("||point: " + array_point + "bounds: " + this.grid.GetLength(0) + " x " + this.grid.GetLength(1));
-        if (array_point[0] < 0 || array_point[1] < 0 ||
-            array_point[0] > this.grid.GetLength(0) ||
-            array_point[1] > this.grid.GetLength(1))
-        {
-            return true;
-        }
-        if (!this.grid[(int)array_point[0], (int)array_point[1]].available) // TODO
-        {
-            return true;
-        }
-        return false;
-    }
-
-    // function to check out of bounds
-    public bool Out_of_bounds(Furniture piece, Vector2 pos_arr)
-    {
-        Vector2 LB_corner = new Vector2(pos_arr[0] - piece.dimensions[0] / 2, pos_arr[1] - piece.dimensions[1] / 2);
-        Vector2 RB_corner = new Vector2(pos_arr[0] + piece.dimensions[0] / 2, pos_arr[1] - piece.dimensions[1] / 2);
-        Vector2 LU_corner = new Vector2(pos_arr[0] - piece.dimensions[0] / 2, pos_arr[1] + piece.dimensions[1] / 2);
-        Vector2 RU_corner = new Vector2(pos_arr[0] + piece.dimensions[0] / 2, pos_arr[1] + piece.dimensions[1] / 2);
-        //Debug.Log("||LB=" + LB_corner + "||LU=" + LU_corner+"||LB=" + RB_corner+"||LB=" + RU_corner);
-        //Debug.Log(this.grid.GetLength(0) + " x " + this.grid.GetLength(1));
-        if (LB_corner[0] < 0 ||
-            LB_corner[1] < 0 ||
-            RB_corner[0] > this.grid.GetLength(0) ||
-            RU_corner[1] > this.grid.GetLength(1))
-        {
-            return true;
-        }
-
-        return false;
+        return true;
     }
 
     // global coords to array coords
