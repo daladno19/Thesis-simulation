@@ -45,7 +45,8 @@ public class Furniture_grid
         Furniture_delegate[] kitchen_furniture = new Furniture_delegate[5];
         kitchen_furniture[0] = new Furniture_delegate(Furniture.kitchenTable);
         Debug.Log("density: " + density + " || curr density" + Get_current_density(this.grid));
-        while (density > Get_current_density(this.grid))
+        int k = 0;
+        while (density > Get_current_density(this.grid) || k < 10)
         {
             //Debug.Log("went inside");
             // choose new furniture piece to place
@@ -53,7 +54,7 @@ public class Furniture_grid
             switch (room_type)
             {
                 case "kitchen":
-                    furniture_piece = Furniture.debugBox(); // TODO random number instead of zero
+                    furniture_piece = Furniture.debugBox();
 
                     break;
                 default:
@@ -74,7 +75,7 @@ public class Furniture_grid
             //Vector2 global_center = array_to_global(center);
             GameObject.Instantiate(Resources.Load(furniture_piece.path), new Vector3(center[0], 0, center[1]), Quaternion.identity);
             // chose random place and place prefab there
-
+            k++;
         }
         Draw_obstacles(this.grid);
 
@@ -111,11 +112,11 @@ public class Furniture_grid
     // function to find all potential furniture placements
     /*
      *  [x] Function should recieve a piece of furniture, to get it's dimensions
-     *  [ ] Function should iterate through all local coords and check wether the placement is viable
-     *       [ ] Placement doesnt overlap accupied tiles
-     *       [ ] Placement doesn't get out of bounds
+     *  [x] Function should iterate through all local coords and check wether the placement is viable
+     *       [x] Placement doesnt overlap accupied tiles
+     *       [x] Placement doesn't get out of bounds
      *       [ ] Placement is suitible for furniture type
-     *  [ ] Function should add all possible placements to the list (global coords)
+     *  [x] Function should add all possible placements to the list (global coords)
      *  [x] Function should return the list
      */
     public List<Vector2> findPotPoints(Furniture piece)
