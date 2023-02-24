@@ -28,11 +28,11 @@ public class Furniture_grid
                     pos_z == (int)room_center[1] - (int)room_dimensions[1] / 2 ||
                     pos_z == (int)room_center[1] + (int)room_dimensions[1] / 2)
                 {
-                    this.grid[i, j] = new Furniture_tile(pos_x, pos_z, false);
+                    this.grid[i, j] = new Furniture_tile(pos_x, pos_z, false,i,j);
                 }
                 else
                 {
-                    this.grid[i, j] = new Furniture_tile(pos_x, pos_z, true);
+                    this.grid[i, j] = new Furniture_tile(pos_x, pos_z, true,i,j);
                 }
                 pos_z++;
             }
@@ -125,11 +125,14 @@ public class Furniture_grid
                     if (!tile.available) continue;
                     if (Out_of_bounds(piece, new Vector2(tile.pos_x, tile.pos_z)))
                     {
-                        //Debug.Log("Out of bounds");
+                        Debug.Log("Out of bounds");
                         continue;
                     }
-                    if (Overlaps(new Vector2(tile.pos_x, tile.pos_z), piece))
+                    if (Overlaps(new Vector2(tile.array_i, tile.array_j), piece))
+                    {
+                        Debug.Log("Overlaps");
                         continue;
+                    }
                     pot_places.Add(new Vector2(tile.pos_x, tile.pos_z));
                     break;
 
@@ -141,27 +144,25 @@ public class Furniture_grid
     // function to check overlaping
     public bool Overlaps(Vector2 array_pos, Furniture piece)
     {
-        array_pos = global_to_array(array_pos);
-        Vector2 LB_corner = new Vector2(array_pos[0] - piece.dimensions[0] / 2, array_pos[1] - piece.dimensions[1] / 2);
-        Vector2 RB_corner = new Vector2(array_pos[0] + piece.dimensions[0] / 2, array_pos[1] - piece.dimensions[1] / 2);
-        Vector2 LU_corner = new Vector2(array_pos[0] - piece.dimensions[0] / 2, array_pos[1] + piece.dimensions[1] / 2);
-        Vector2 RU_corner = new Vector2(array_pos[0] + piece.dimensions[0] / 2, array_pos[1] + piece.dimensions[1] / 2);
-
-        try
+        for (int i = (int)array_pos[0] - (int)piece.dimensions[0] / 2;
+            i < (int)array_pos[0] + (int)piece.dimensions[0] / 2; i++)
         {
-            if (!this.grid[(int)LB_corner[0], (int)LB_corner[1]].available) return true;
-            if (!this.grid[(int)RB_corner[0], (int)RB_corner[1]].available) return true;
-            if (!this.grid[(int)LU_corner[0], (int)LU_corner[1]].available) return true;
-            if (!this.grid[(int)RU_corner[0], (int)RU_corner[1]].available) return true;
+            for (int j = (int)array_pos[1] - (int)piece.dimensions[1] / 2;
+                j < (int)array_pos[1] + (int)piece.dimensions[1] / 2; j++)
+            {
+                if (i < 0 || j < 0 || i > this.grid.GetLength(0) || j > this.grid.GetLength(1))
+                {
+                    continue;
+                }
+                if (!this.grid[i, j].available)
+                {
+                    return true;
+                }
+            }
         }
-        catch (IndexOutOfRangeException e)
-        {
-            return true;
-        }
-
         return false;
     }
-
+    // vroken sed: 954445584575241534256184552323454
     public bool Overlaps(Vector2 array_point)
     {
         array_point = global_to_array(array_point); // now it's actually array coords and not global
@@ -248,15 +249,21 @@ public class Furniture_grid
 
 public class Furniture_tile
 {
-    public int pos_x;
-    public int pos_z;
+    public int pos_x; // global x value
+    public int pos_z; // global z value
+
+    public int array_i; // local x value
+    public int array_j; // local z value
+
     public bool available;
 
-    public Furniture_tile(int x, int z, bool available)
+    public Furniture_tile(int x, int z, bool available, int i, int j)
     {
         this.pos_x = x;
         this.pos_z = z;
         this.available = available;
+        this.array_i = i;
+        this.array_j = j;
     }
 
 }
