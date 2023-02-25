@@ -43,68 +43,87 @@ public class Furniture_grid
             pos_x++;
         }
 
-        float density = 0.2f;
+        //float density = 0.2f;
 
-        Furniture_delegate[] kitchen_furniture = new Furniture_delegate[5];
-        kitchen_furniture[0] = new Furniture_delegate(Furniture.kitchenTable);
+        Furniture_delegate[] debug_furniture = new Furniture_delegate[3];
+        debug_furniture[0] = new Furniture_delegate(Furniture.debugBox);
+        debug_furniture[1] = new Furniture_delegate(Furniture.debugBigBox);
+        debug_furniture[2] = new Furniture_delegate(Furniture.debugLongBox);
 
-        //Debug.Log("density: " + density + " || curr density" + Get_current_density(this.grid));
+        Furniture_delegate[] kitchen_furniture = debug_furniture;
 
-        Furniture piece = Furniture.debugBox();
+        Furniture_delegate[] bathroom_furniture = debug_furniture;
+
+        Furniture_delegate[] office_furniture = debug_furniture;
+
+        Furniture_delegate[] livingroom_furniture = debug_furniture;
+
+        Furniture_delegate[] bedroom_furniture = debug_furniture;
+
+        
+
+/*        Furniture piece = Furniture.debugBox();
 
         List<Vector2> pot = findPotPoints(piece);
 
         Vector2 center = pot[rnd.Next(0,pot.Count)];
         Debug.Log(pot.Count);
-        foreach (Vector2 point in pot)
+
+        GameObject.Instantiate(Resources.Load(piece.path), new Vector3(center[0], 2, center[1]), piece.rotation);
+        Occupy_grid(global_to_array(center), piece);*/
+
+        // choose correct furniture pool according to room type
+        Furniture_delegate[] furniture_array;
+        switch (room_type)
         {
-            Debug.DrawLine(new Vector3(point[0], 0, point[1]), new Vector3(point[0], 5, point[1]), Color.yellow, 60f);
+            case "bedroom":
+                furniture_array = bedroom_furniture;
+                break;
+            case "bathroom":
+                furniture_array = bathroom_furniture;
+                break;
+            case "officeroom":
+                furniture_array = office_furniture;
+                break;
+            case "livingroom":
+                furniture_array = livingroom_furniture;
+                break;
+            case "kitchen":
+                furniture_array = kitchen_furniture;
+                break;
+            default:
+                furniture_array = debug_furniture;
+                break;
         }
 
-        GameObject.Instantiate(Resources.Load(piece.path), new Vector3(center[0], 2, center[1]), Quaternion.identity);
-        Occupy_grid(global_to_array(center), piece);
+        int furniture_num = rnd.Next(2, (int)(room_dimensions[0] * room_dimensions[1]) / 100);
 
-        /*int k = 0;
-        while (density > Get_current_density(this.grid) || k < 10)
+        for (int i = 0; i < furniture_num; i++)
         {
-            // choose new furniture piece to place
-            Furniture furniture_piece;
-            switch (room_type)
-            {
-                case "kitchen":
-                    furniture_piece = Furniture.debugBox();
+            // pick random piece from pool
+            Furniture piece = furniture_array[rnd.Next(0, furniture_array.Length)]();
 
-                    break;
-                default:
-                    furniture_piece = Furniture.debugBox();
-                    break;
+            // randomly rotate
+            if (rnd.Next(0, 1) == 0)
+            { 
+                // TODO
             }
 
-            // find all potential placements
-            List<Vector2> pot_placements = findPotPoints(furniture_piece);
-
-            // if cant place specific furniture, give up
-            if (pot_placements.Count == 0 || k == 10)
+            // get random point to place
+            List<Vector2> pot_points = findPotPoints(piece);
+            if (pot_points.Count == 0)
             {
-                Debug.Log("cant place any");
-                break;
+                continue;
             }
+            Vector2 placement = pot_points[rnd.Next(0, pot_points.Count)];
 
-            // pick a random valid placement
-            Vector2 center = pot_placements[rnd.Next(0, pot_placements.Count)];
+            // place prefab
+            GameObject.Instantiate(Resources.Load(piece.path),new Vector3(placement[0],0,placement[1]), piece.rotation);
 
-            // occupy grid under new object
-            Occupy_grid(global_to_array(center), furniture_piece);
-
-            // place a prefab
-            GameObject.Instantiate(Resources.Load(furniture_piece.path), new Vector3(center[0], 0, center[1]), Quaternion.identity);
-            k++;
-        }*/
-
-
+            // occupy grid
+            Occupy_grid(placement, piece);
+        }
         Draw_obstacles(this.grid);
-
-
     }
 
   
@@ -141,7 +160,7 @@ public class Furniture_grid
                 foreach (Furniture_tile tile in this.grid)
                 {
                     if (!IsValid(tile, piece)) continue;
-                    pot_places.Add(new Vector2(tile.pos_x, tile.pos_x));
+                    pot_places.Add(new Vector2(tile.pos_x, tile.pos_z));
                     //Debug.DrawLine(new Vector3(tile.pos_x, 0, tile.pos_z), new Vector3(tile.pos_x, 5, tile.pos_z), Color.yellow, 60f);
                 }
                 break;
@@ -149,7 +168,6 @@ public class Furniture_grid
 
         return pot_places;
     }
-
 
     // function to check wether placement is valid
     public bool IsValid(Furniture_tile tile, Furniture piece)

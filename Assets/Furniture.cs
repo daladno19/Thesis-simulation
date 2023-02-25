@@ -7,12 +7,14 @@ public class Furniture
     public Vector2 dimensions;
     public string path;
     public string placement;
+    public Quaternion rotation;
 
     public Furniture(Vector2 dimensions, string path, string placement)
     {
         this.dimensions = dimensions;
         this.path = path;
         this.placement = placement; // any || wall
+        this.rotation = Quaternion.identity;
     }
 
     public static Furniture kitchenTable()
@@ -24,9 +26,15 @@ public class Furniture
     {
         return new Furniture(new Vector2(4, 4), "Prefabs/Debug_Box", "any");
     }
-    // Start is called before the first frame update
-    void Start()
+
+    public static Furniture debugLongBox()
     {
-        
+        return new Furniture(new Vector2(20, 2), "Prefabs/Debug_Long_Box", "any");
     }
+
+    public static Furniture debugBigBox()
+    {
+        return new Furniture(new Vector2(14, 12), "Prefabs/Debug_Big_Box", "any");
+    }
+
 }

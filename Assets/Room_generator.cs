@@ -101,18 +101,18 @@ public class Room_generator : MonoBehaviour
             
             //find prev room, to which new one got connected
             Room prev_room = Find_connected_room(new_room, room_list);
-            Debug.DrawLine(new Vector3(new_room.room_center[0], 5, new_room.room_center[1]), new Vector3(prev_room.room_center[0], 5, prev_room.room_center[1]), Color.red, 60f);
+            //Debug.DrawLine(new Vector3(new_room.room_center[0], 5, new_room.room_center[1]), new Vector3(prev_room.room_center[0], 5, prev_room.room_center[1]), Color.red, 60f);
             
             //make a door between new_room and prev_room
             Cut_door(new_room, prev_room);
 
         }
 
-        /*foreach (Room room in room_list)
+        foreach (Room room in room_list)
         {
             Furniture_grid grid = new Furniture_grid(room.room_center, room.room_dimensions, room.room_type);
-        }*/
-        Furniture_grid grid = new Furniture_grid(room_list[2].room_center, room_list[2].room_dimensions, room_list[2].room_type);
+        }
+        //Furniture_grid grid = new Furniture_grid(room_list[2].room_center, room_list[2].room_dimensions, room_list[2].room_type);
         // TODO populate with furniture
     }
 
@@ -137,12 +137,12 @@ public class Room_generator : MonoBehaviour
             int[] z_points = { (int)room1.room_corners[0][1], (int)room1.room_corners[3][1], (int)room2.room_corners[0][1], (int)room2.room_corners[3][1]};
             Array.Sort(z_points);
 
-            Debug.DrawLine(new Vector3(x_bounds, 11, z_points[0]),new Vector3(x_bounds, 11, z_points[3]), Color.green, 60f);
-            Debug.DrawLine(new Vector3(x_bounds, 0, z_points[1]), new Vector3(x_bounds, 30, z_points[1]), Color.blue, 60f);
-            Debug.DrawLine(new Vector3(x_bounds, 0, z_points[2]), new Vector3(x_bounds, 30, z_points[2]), Color.blue, 60f);
+            //Debug.DrawLine(new Vector3(x_bounds, 11, z_points[0]),new Vector3(x_bounds, 11, z_points[3]), Color.green, 60f);
+            //Debug.DrawLine(new Vector3(x_bounds, 0, z_points[1]), new Vector3(x_bounds, 30, z_points[1]), Color.blue, 60f);
+            //Debug.DrawLine(new Vector3(x_bounds, 0, z_points[2]), new Vector3(x_bounds, 30, z_points[2]), Color.blue, 60f);
             
             Vector2 door = new Vector2(x_bounds, (z_points[1]+z_points[2])/2);
-            Debug.DrawLine(new Vector3(door[0], 0, door[1]), new Vector3(door[0], 30, door[1]), Color.yellow, 60f);
+            //Debug.DrawLine(new Vector3(door[0], 0, door[1]), new Vector3(door[0], 30, door[1]), Color.yellow, 60f);
             Room.Build_wall_w_door(new Vector2(x_bounds, z_points[0]), new Vector2(x_bounds, z_points[3]), door, "vertical");
         }
         else 
@@ -162,12 +162,12 @@ public class Room_generator : MonoBehaviour
             int[] x_points = {(int)room1.room_corners[0][0], (int)room1.room_corners[1][0], (int)room2.room_corners[0][0], (int)room2.room_corners[1][0]};
             Array.Sort(x_points);
 
-            Debug.DrawLine(new Vector3(x_points[0], 11, z_bounds), new Vector3(x_points[3], 11, z_bounds), Color.green, 60f);
-            Debug.DrawLine(new Vector3(x_points[1], 0, z_bounds), new Vector3(x_points[1], 30, z_bounds), Color.blue, 60f);
-            Debug.DrawLine(new Vector3(x_points[2], 0, z_bounds), new Vector3(x_points[2], 30, z_bounds), Color.blue, 60f);
+            //Debug.DrawLine(new Vector3(x_points[0], 11, z_bounds), new Vector3(x_points[3], 11, z_bounds), Color.green, 60f);
+            //Debug.DrawLine(new Vector3(x_points[1], 0, z_bounds), new Vector3(x_points[1], 30, z_bounds), Color.blue, 60f);
+            //Debug.DrawLine(new Vector3(x_points[2], 0, z_bounds), new Vector3(x_points[2], 30, z_bounds), Color.blue, 60f);
 
             Vector2 door = new Vector2((x_points[1] + x_points[2])/2,z_bounds);
-            Debug.DrawLine(new Vector3(door[0], 0, door[1]), new Vector3(door[0], 30, door[1]), Color.yellow, 60f);
+            //Debug.DrawLine(new Vector3(door[0], 0, door[1]), new Vector3(door[0], 30, door[1]), Color.yellow, 60f);
             Room.Build_wall_w_door(new Vector2(x_points[0], z_bounds), new Vector2(x_points[3], z_bounds), door, "horizontal");
         }
     }
