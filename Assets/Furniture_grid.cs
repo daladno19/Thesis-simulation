@@ -40,7 +40,7 @@ public class Furniture_grid
             pos_x++;
         }
 
-        float density = 0.7f;
+        float density = 0.2f;
 
         Furniture_delegate[] kitchen_furniture = new Furniture_delegate[5];
         kitchen_furniture[0] = new Furniture_delegate(Furniture.kitchenTable);
@@ -65,7 +65,7 @@ public class Furniture_grid
             // find all potential placements
             List<Vector2> pot_placements = findPotPoints(furniture_piece);
 
-            if (pot_placements.Count == 0)
+            if (pot_placements.Count == 0 || k == 10)
             {
                 Debug.Log("cant place any");
                 break;
@@ -82,11 +82,7 @@ public class Furniture_grid
 
     }
 
-    // debugging function
-    private void OnDrawGizmos()
-    {
-        // TODO
-    }
+  
 
     // function to occupy tiles taken by new furniture piece
     public void Occupy_grid(Vector2 center_arr, Furniture piece)
