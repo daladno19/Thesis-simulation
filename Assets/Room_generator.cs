@@ -103,13 +103,16 @@ public class Room_generator : MonoBehaviour
             Room prev_room = Find_connected_room(new_room, room_list);
             Debug.DrawLine(new Vector3(new_room.room_center[0], 5, new_room.room_center[1]), new Vector3(prev_room.room_center[0], 5, prev_room.room_center[1]), Color.red, 60f);
             
-            //make a door between new_room and prev_room |===============| ToFix |===============|
+            //make a door between new_room and prev_room
             Cut_door(new_room, prev_room);
-            Furniture_grid grid = new  Furniture_grid(room_list[i].room_center, room_list[i].room_dimensions, room_list[i].room_type, seed);
 
         }
 
-        //Furniture_grid grid = new Furniture_grid(room_list[1].room_center, room_list[1].room_dimensions, room_list[1].room_type, seed);
+        /*foreach (Room room in room_list)
+        {
+            Furniture_grid grid = new Furniture_grid(room.room_center, room.room_dimensions, room.room_type);
+        }*/
+        Furniture_grid grid = new Furniture_grid(room_list[2].room_center, room_list[2].room_dimensions, room_list[2].room_type);
         // TODO populate with furniture
     }
 

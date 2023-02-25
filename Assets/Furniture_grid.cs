@@ -10,7 +10,7 @@ public class Furniture_grid
     public Vector2 room_center;
 
     // TODO create seed, overlap function 
-    public Furniture_grid(Vector2 room_center, Vector2 room_dimensions, string room_type, string seed)
+    public Furniture_grid(Vector2 room_center, Vector2 room_dimensions, string room_type)
     {
         this.grid = new Furniture_tile[(int)room_dimensions[0] + 1, (int)room_dimensions[1] + 1];
         this.room_dimensions = room_dimensions;
@@ -48,19 +48,19 @@ public class Furniture_grid
         Furniture_delegate[] kitchen_furniture = new Furniture_delegate[5];
         kitchen_furniture[0] = new Furniture_delegate(Furniture.kitchenTable);
 
-        Debug.Log("density: " + density + " || curr density" + Get_current_density(this.grid));
+        //Debug.Log("density: " + density + " || curr density" + Get_current_density(this.grid));
 
-        //Vector2 center = new Vector2(5,5);
         Furniture piece = Furniture.debugBox();
-
-        //GameObject.Instantiate(Resources.Load(piece.path), new Vector3(center[0], 2, center[1]), Quaternion.identity);
-        
-        //Occupy_grid(global_to_array(center), piece);
 
         List<Vector2> pot = findPotPoints(piece);
 
-        Vector2 center = array_to_global(pot[rnd.Next(0,pot.Count)]);
-        //Debug.DrawLine(new Vector3(center[0], 0, center[1]), new Vector3(center[0], 20, center[1]), Color.black, 60f);
+        Vector2 center = pot[rnd.Next(0,pot.Count)];
+        Debug.Log(pot.Count);
+        foreach (Vector2 point in pot)
+        {
+            Debug.DrawLine(new Vector3(point[0], 0, point[1]), new Vector3(point[0], 5, point[1]), Color.yellow, 60f);
+        }
+
         GameObject.Instantiate(Resources.Load(piece.path), new Vector3(center[0], 2, center[1]), Quaternion.identity);
         Occupy_grid(global_to_array(center), piece);
 
@@ -142,7 +142,7 @@ public class Furniture_grid
                 {
                     if (!IsValid(tile, piece)) continue;
                     pot_places.Add(new Vector2(tile.pos_x, tile.pos_x));
-                    Debug.DrawLine(new Vector3(tile.pos_x, 0, tile.pos_z), new Vector3(tile.pos_x, 5, tile.pos_z), Color.yellow, 60f);
+                    //Debug.DrawLine(new Vector3(tile.pos_x, 0, tile.pos_z), new Vector3(tile.pos_x, 5, tile.pos_z), Color.yellow, 60f);
                 }
                 break;
         }
