@@ -15,8 +15,11 @@ public class Furniture_grid
         this.grid = new Furniture_tile[(int)room_dimensions[0] + 1, (int)room_dimensions[1] + 1];
         this.room_dimensions = room_dimensions;
         this.room_center = room_center;
-        System.Random rnd = new System.Random((int)room_center[1]);
 
+        // init seeded random
+        System.Random rnd = new System.Random((int)room_center[1] + (int)room_center[0]);
+
+        // populate grid with tiles
         int pos_x = (int)room_center[0] - (int)room_dimensions[0] / 2;
         int pos_z = (int)room_center[1] - (int)room_dimensions[1] / 2;
         for (int i = 0; i < grid.GetLength(0); i++)
@@ -44,11 +47,26 @@ public class Furniture_grid
 
         Furniture_delegate[] kitchen_furniture = new Furniture_delegate[5];
         kitchen_furniture[0] = new Furniture_delegate(Furniture.kitchenTable);
+
         Debug.Log("density: " + density + " || curr density" + Get_current_density(this.grid));
-        int k = 0;
+
+        //Vector2 center = new Vector2(5,5);
+        Furniture piece = Furniture.debugBox();
+
+        //GameObject.Instantiate(Resources.Load(piece.path), new Vector3(center[0], 2, center[1]), Quaternion.identity);
+        
+        //Occupy_grid(global_to_array(center), piece);
+
+        List<Vector2> pot = findPotPoints(piece);
+
+        Vector2 center = array_to_global(pot[rnd.Next(0,pot.Count)]);
+        //Debug.DrawLine(new Vector3(center[0], 0, center[1]), new Vector3(center[0], 20, center[1]), Color.black, 60f);
+        GameObject.Instantiate(Resources.Load(piece.path), new Vector3(center[0], 2, center[1]), Quaternion.identity);
+        Occupy_grid(global_to_array(center), piece);
+
+        /*int k = 0;
         while (density > Get_current_density(this.grid) || k < 10)
         {
-            //Debug.Log("went inside");
             // choose new furniture piece to place
             Furniture furniture_piece;
             switch (room_type)
@@ -65,18 +83,25 @@ public class Furniture_grid
             // find all potential placements
             List<Vector2> pot_placements = findPotPoints(furniture_piece);
 
+            // if cant place specific furniture, give up
             if (pot_placements.Count == 0 || k == 10)
             {
                 Debug.Log("cant place any");
                 break;
             }
+
+            // pick a random valid placement
             Vector2 center = pot_placements[rnd.Next(0, pot_placements.Count)];
-            Occupy_grid(center, furniture_piece);
-            //Vector2 global_center = array_to_global(center);
+
+            // occupy grid under new object
+            Occupy_grid(global_to_array(center), furniture_piece);
+
+            // place a prefab
             GameObject.Instantiate(Resources.Load(furniture_piece.path), new Vector3(center[0], 0, center[1]), Quaternion.identity);
-            // chose random place and place prefab there
             k++;
-        }
+        }*/
+
+
         Draw_obstacles(this.grid);
 
 
@@ -105,16 +130,7 @@ public class Furniture_grid
         }
     }
 
-    // function to find all potential furniture placements
-    /*
-     *  [x] Function should recieve a piece of furniture, to get it's dimensions
-     *  [x] Function should iterate through all local coords and check wether the placement is viable
-     *       [x] Placement doesnt overlap accupied tiles
-     *       [x] Placement doesn't get out of bounds
-     *       [ ] Placement is suitible for furniture type
-     *  [x] Function should add all possible placements to the list (global coords)
-     *  [x] Function should return the list
-     */
+    // function to find all potential furniture placements | returns  local coords for some dumb reason
     public List<Vector2> findPotPoints(Furniture piece)
     {
         List<Vector2> pot_places = new List<Vector2>();
@@ -126,6 +142,7 @@ public class Furniture_grid
                 {
                     if (!IsValid(tile, piece)) continue;
                     pot_places.Add(new Vector2(tile.pos_x, tile.pos_x));
+                    Debug.DrawLine(new Vector3(tile.pos_x, 0, tile.pos_z), new Vector3(tile.pos_x, 5, tile.pos_z), Color.yellow, 60f);
                 }
                 break;
         }
@@ -148,7 +165,7 @@ public class Furniture_grid
             tile.array_i + length / 2 >= x_arr_bounds ||
             tile.array_j + width / 2  >= z_arr_bounds)
         {
-            Debug.Log("out of bounds");
+            //Debug.Log("out of bounds");
             return false;
         }
         // check overlaping
@@ -158,7 +175,7 @@ public class Furniture_grid
             {
                 if (!grid[i, j].available)
                 {
-                    Debug.Log("overlaps");
+                    //Debug.Log("overlaps");
                     return false;
                 }
             }

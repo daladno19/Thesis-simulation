@@ -12,7 +12,7 @@ public class Room_generator : MonoBehaviour
 
         // generating 32-digit long seed
         string seed = "";
-        //seed = "933632431337312885764214731722567";   // for debugging purposes
+        seed = "922783763831256442626444524684182";   // for debugging purposes
         short seed_length = 32;
         if (seed == "")
         { 
@@ -109,7 +109,7 @@ public class Room_generator : MonoBehaviour
 
         }
 
-        Furniture_grid grid1 = new Furniture_grid(room_list[0].room_center, room_list[0].room_dimensions, room_list[0].room_type, seed);
+        //Furniture_grid grid = new Furniture_grid(room_list[1].room_center, room_list[1].room_dimensions, room_list[1].room_type, seed);
         // TODO populate with furniture
     }
 
