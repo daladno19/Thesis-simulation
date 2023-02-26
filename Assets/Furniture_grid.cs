@@ -59,10 +59,10 @@ public class Furniture_grid
         }
         //float density = 0.2f;
 
-        Furniture_delegate[] debug_furniture = new Furniture_delegate[3];
-        debug_furniture[0] = new Furniture_delegate(Furniture.debugBox);
-        debug_furniture[1] = new Furniture_delegate(Furniture.debugBigBox);
-        debug_furniture[2] = new Furniture_delegate(Furniture.debugLongBox);
+        Furniture_delegate[] debug_furniture = new Furniture_delegate[1];
+        //debug_furniture[0] = new Furniture_delegate(Furniture.debugBox);
+        //debug_furniture[1] = new Furniture_delegate(Furniture.debugBigBox);
+        debug_furniture[0] = new Furniture_delegate(Furniture.debugLongBox);
 
         Furniture_delegate[] kitchen_furniture = debug_furniture;
 
@@ -107,10 +107,13 @@ public class Furniture_grid
             // pick random piece from pool
             Furniture piece = furniture_array[rnd.Next(0, furniture_array.Length)]();
 
-            // randomly rotate
-            if (rnd.Next(0, 1) == 0)
-            { 
-                // TODO
+            //randomly rotate if furniture can be placed anywhere
+            if (rnd.Next(2) == 1)
+            {
+                piece.rotation = Quaternion.Euler(0,90,0);
+                float temp_dim = piece.dimensions[0];
+                piece.dimensions[0] = piece.dimensions[1];
+                piece.dimensions[1] = temp_dim;
             }
 
             // get random point to place
@@ -160,6 +163,21 @@ public class Furniture_grid
 
         switch (piece.placement)
         {
+            case "wall":
+                foreach (Furniture_tile tile in this.grid)
+                {
+                    if (tile.pos_x + piece.dimensions[0] / 2 != room_dimensions[0] ||
+                        tile.pos_x - piece.dimensions[0] / 2 != room_dimensions[0] ||
+                        tile.pos_z + piece.dimensions[1] / 2 != room_dimensions[1] ||
+                        tile.pos_z - piece.dimensions[1] / 2 != room_dimensions[1])
+                    {
+                        continue;
+                    }
+                    if (!IsValid(tile, piece)) continue;
+                    pot_places.Add(new Vector2(tile.pos_x, tile.pos_z));
+                }
+                break;
+
             default: // can be placed anywhere (placeholder)
                 foreach (Furniture_tile tile in this.grid)
                 {
