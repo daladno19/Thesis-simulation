@@ -108,12 +108,12 @@ public class Room_generator : MonoBehaviour
 
         }
 
+        // populate each room with furniture
         foreach (Room room in room_list)
         {
-            Furniture_grid grid = new Furniture_grid(room.room_center, room.room_dimensions, room.room_type);
+            Furniture_grid grid = new Furniture_grid(room);
         }
         //Furniture_grid grid = new Furniture_grid(room_list[2].room_center, room_list[2].room_dimensions, room_list[2].room_type);
-        // TODO populate with furniture
     }
 
     // function to make door between two rooms
@@ -446,6 +446,7 @@ public class Room_generator : MonoBehaviour
         if (Intersects(pot_RB + new Vector2(-1, 1),  room_list)) return true;
         if (Intersects(pot_LU + new Vector2(1, -1),  room_list)) return true;
         if (Intersects(pot_RU + new Vector2(-1, -1), room_list)) return true;
+        if (Intersects(pot_center, room_list)) return true;
 
         return false;
     }

@@ -9,12 +9,12 @@ public class Furniture_grid
     public Vector2 room_dimensions;
     public Vector2 room_center;
 
-    // TODO create seed, overlap function 
-    public Furniture_grid(Vector2 room_center, Vector2 room_dimensions, string room_type)
+    // furniture grid constructor
+    public Furniture_grid(Room room)
     {
-        this.grid = new Furniture_tile[(int)room_dimensions[0] + 1, (int)room_dimensions[1] + 1];
-        this.room_dimensions = room_dimensions;
-        this.room_center = room_center;
+        this.grid = new Furniture_tile[(int)room.room_dimensions[0] + 1, (int)room.room_dimensions[1] + 1];
+        this.room_dimensions = room.room_dimensions;
+        this.room_center = room.room_center;
 
         // init seeded random
         System.Random rnd = new System.Random((int)room_center[1] + (int)room_center[0]);
@@ -43,6 +43,20 @@ public class Furniture_grid
             pos_x++;
         }
 
+        // TODO occupy grid near doors
+        foreach (GameObject door in GameObject.FindGameObjectsWithTag("Door"))
+        {
+            // check if door is in this room
+            if (door.transform.position.x < this.room_center[0] - this.room_dimensions[0] / 2 ||
+                door.transform.position.x > this.room_center[0] + this.room_dimensions[0] / 2 ||
+                door.transform.position.z < this.room_center[1] - this.room_dimensions[1] / 2 ||
+                door.transform.position.z > this.room_center[1] + this.room_dimensions[1] / 2)
+            {
+                continue;
+            }
+            Occupy_grid(global_to_array(new Vector2(door.transform.position.x, door.transform.position.z)), Furniture.door());
+            //occupy grid around
+        }
         //float density = 0.2f;
 
         Furniture_delegate[] debug_furniture = new Furniture_delegate[3];
@@ -60,21 +74,11 @@ public class Furniture_grid
 
         Furniture_delegate[] bedroom_furniture = debug_furniture;
 
-        
-
-/*        Furniture piece = Furniture.debugBox();
-
-        List<Vector2> pot = findPotPoints(piece);
-
-        Vector2 center = pot[rnd.Next(0,pot.Count)];
-        Debug.Log(pot.Count);
-
-        GameObject.Instantiate(Resources.Load(piece.path), new Vector3(center[0], 2, center[1]), piece.rotation);
-        Occupy_grid(global_to_array(center), piece);*/
+       
 
         // choose correct furniture pool according to room type
         Furniture_delegate[] furniture_array;
-        switch (room_type)
+        switch (room.room_type)
         {
             case "bedroom":
                 furniture_array = bedroom_furniture;
@@ -118,7 +122,7 @@ public class Furniture_grid
             Vector2 placement = pot_points[rnd.Next(0, pot_points.Count)];
 
             // place prefab
-            GameObject.Instantiate(Resources.Load(piece.path),new Vector3(placement[0],0,placement[1]), piece.rotation);
+            GameObject.Instantiate(Resources.Load(piece.path),new Vector3(placement[0],piece.height,placement[1]), piece.rotation);
 
             // occupy grid
             Occupy_grid(global_to_array(placement), piece);

@@ -8,33 +8,40 @@ public class Furniture
     public string path;
     public string placement;
     public Quaternion rotation;
+    public float height;
 
-    public Furniture(Vector2 dimensions, string path, string placement)
+    public Furniture(Vector2 dimensions,float height, string path, string placement)
     {
         this.dimensions = dimensions;
         this.path = path;
         this.placement = placement; // any || wall
         this.rotation = Quaternion.identity;
+        this.height = height;
     }
 
     public static Furniture kitchenTable()
     {
-        return new Furniture(new Vector2(18,14), "Prefabs/Kitchen_Table", "any");
+        return new Furniture(new Vector2(18,14),1f, "Prefabs/Kitchen_Table", "any");
     }
 
     public static Furniture debugBox()
     {
-        return new Furniture(new Vector2(4, 4), "Prefabs/Debug_Box", "any");
+        return new Furniture(new Vector2(4, 4), 2f, "Prefabs/Debug_Box", "any");
     }
 
     public static Furniture debugLongBox()
     {
-        return new Furniture(new Vector2(20, 2), "Prefabs/Debug_Long_Box", "any");
+        return new Furniture(new Vector2(20, 2), 2f, "Prefabs/Debug_Long_Box", "any");
     }
 
     public static Furniture debugBigBox()
     {
-        return new Furniture(new Vector2(14, 12), "Prefabs/Debug_Big_Box", "any");
+        return new Furniture(new Vector2(14, 12), 2f, "Prefabs/Debug_Big_Box", "any");
+    }
+
+    public static Furniture door()
+    {
+        return new Furniture(new Vector2(8, 8), -2f, "none", "any");
     }
 
 }
