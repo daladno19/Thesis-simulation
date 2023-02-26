@@ -121,7 +121,7 @@ public class Furniture_grid
             GameObject.Instantiate(Resources.Load(piece.path),new Vector3(placement[0],0,placement[1]), piece.rotation);
 
             // occupy grid
-            Occupy_grid(placement, piece);
+            Occupy_grid(global_to_array(placement), piece);
         }
         Draw_obstacles(this.grid);
     }
