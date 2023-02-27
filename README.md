@@ -13,7 +13,7 @@ Repo with all the files related to unity simulation of my thesis paper. Project 
 ### Furniture placement
 - [x] Create Furniture class
 - [ ] Create all the prefabs
-- [ ] Script to instantiate prefabs at random locations
+- [x] Script to instantiate prefabs at random locations
 ## Coverage Path planner
 ### TODO
 ### TODO
