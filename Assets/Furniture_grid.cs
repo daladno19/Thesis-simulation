@@ -59,10 +59,10 @@ public class Furniture_grid
         }
         //float density = 0.2f;
 
-        Furniture_delegate[] debug_furniture = new Furniture_delegate[1];
-        //debug_furniture[0] = new Furniture_delegate(Furniture.debugBox);
-        //debug_furniture[1] = new Furniture_delegate(Furniture.debugBigBox);
-        debug_furniture[0] = new Furniture_delegate(Furniture.debugLongBox);
+        Furniture_delegate[] debug_furniture = new Furniture_delegate[3];
+        debug_furniture[0] = new Furniture_delegate(Furniture.debugBox);
+        debug_furniture[1] = new Furniture_delegate(Furniture.debugBigBox);
+        debug_furniture[2] = new Furniture_delegate(Furniture.debugLongBox);
 
         Furniture_delegate[] kitchen_furniture = debug_furniture;
 
@@ -166,10 +166,10 @@ public class Furniture_grid
             case "wall":
                 foreach (Furniture_tile tile in this.grid)
                 {
-                    if (tile.pos_x + piece.dimensions[0] / 2 != room_dimensions[0] ||
-                        tile.pos_x - piece.dimensions[0] / 2 != room_dimensions[0] ||
-                        tile.pos_z + piece.dimensions[1] / 2 != room_dimensions[1] ||
-                        tile.pos_z - piece.dimensions[1] / 2 != room_dimensions[1])
+                    if (tile.pos_x + piece.dimensions[0] / 2 != room_center[0] + room_dimensions[0] / 2 &&
+                        tile.pos_x - piece.dimensions[0] / 2 != room_center[0] - room_dimensions[0] / 2 &&
+                        tile.pos_z + piece.dimensions[1] / 2 != room_center[1] + room_dimensions[1] / 2 &&
+                        tile.pos_z - piece.dimensions[1] / 2 != room_center[1] - room_dimensions[1] / 2)
                     {
                         continue;
                     }

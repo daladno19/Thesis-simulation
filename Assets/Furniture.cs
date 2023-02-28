@@ -26,7 +26,7 @@ public class Furniture
 
     public static Furniture debugBox()
     {
-        return new Furniture(new Vector2(4, 4), 2f, "Prefabs/Debug_Box", "any");
+        return new Furniture(new Vector2(4, 4), 2f, "Prefabs/Debug_Box", "wall");
     }
 
     public static Furniture debugLongBox()
