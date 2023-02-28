@@ -64,7 +64,19 @@ public class Furniture_grid
         debug_furniture[1] = new Furniture_delegate(Furniture.debugBigBox);
         debug_furniture[2] = new Furniture_delegate(Furniture.debugLongBox);
 
-        Furniture_delegate[] kitchen_furniture = debug_furniture;
+        Furniture_delegate[] kitchen_furniture = new Furniture_delegate[10];
+        kitchen_furniture[0] = new Furniture_delegate(Furniture.Fridge);
+        kitchen_furniture[1] = new Furniture_delegate(Furniture.BigFridge);
+        kitchen_furniture[2] = new Furniture_delegate(Furniture.KitchenTable);
+        kitchen_furniture[3] = new Furniture_delegate(Furniture.SmallCounter);
+        kitchen_furniture[4] = new Furniture_delegate(Furniture.Stove);
+        kitchen_furniture[5] = new Furniture_delegate(Furniture.MediumCounter);
+        kitchen_furniture[6] = new Furniture_delegate(Furniture.KitchenShelf);
+        kitchen_furniture[7] = new Furniture_delegate(Furniture.BigCounter);
+        kitchen_furniture[8] = new Furniture_delegate(Furniture.Stool);
+        kitchen_furniture[9] = new Furniture_delegate(Furniture.SquareTable);
+
+
 
         Furniture_delegate[] bathroom_furniture = debug_furniture;
 

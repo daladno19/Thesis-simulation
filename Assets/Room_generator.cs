@@ -587,8 +587,8 @@ public struct Room
     public static void Build_Wall(Vector2 corner1, Vector2 corner2)
     {
         GameObject wall = GameObject.CreatePrimitive(PrimitiveType.Cube);
-        wall.transform.position = new Vector3((corner1[0] + corner2[0]) / 2, 5, (corner1[1] + corner2[1]) / 2);
-        wall.transform.localScale = new Vector3(Mathf.Abs(corner1[0] - corner2[0]) + 1, 10, Mathf.Abs(corner1[1] - corner2[1]) + 1);
+        wall.transform.position = new Vector3((corner1[0] + corner2[0]) / 2, 11, (corner1[1] + corner2[1]) / 2);
+        wall.transform.localScale = new Vector3(Mathf.Abs(corner1[0] - corner2[0]) + 1, 22, Mathf.Abs(corner1[1] - corner2[1]) + 1);
         wall.GetComponent<MeshRenderer>().material = (Material)Resources.Load("materials/Wall_material", typeof(Material)) as Material;
         wall.tag = "Wall";
     }
@@ -608,6 +608,7 @@ public struct Room
         {
             // if wall is vertical
             case "vertical":
+
                 // check for other doors on the same wall
                 foreach (GameObject prev_door in GameObject.FindGameObjectsWithTag("Door"))
                 {
