@@ -43,7 +43,7 @@ public class Furniture_grid
             pos_x++;
         }
 
-        // TODO occupy grid near doors
+        // occupy grid near doors
         foreach (GameObject door in GameObject.FindGameObjectsWithTag("Door"))
         {
             // check if door is in this room
@@ -75,8 +75,6 @@ public class Furniture_grid
         kitchen_furniture[7] = new Furniture_delegate(Furniture.BigCounter);
         kitchen_furniture[8] = new Furniture_delegate(Furniture.Stool);
         kitchen_furniture[9] = new Furniture_delegate(Furniture.SquareTable);
-
-
 
         Furniture_delegate[] bathroom_furniture = debug_furniture;
 
@@ -112,7 +110,7 @@ public class Furniture_grid
                 break;
         }
 
-        int furniture_num = rnd.Next(2, (int)(room_dimensions[0] * room_dimensions[1]) / 100);
+        int furniture_num = rnd.Next((int)(room_dimensions[0] * room_dimensions[1]) / 300, (int)(room_dimensions[0] * room_dimensions[1]) / 150);
 
         for (int i = 0; i < furniture_num; i++)
         {
@@ -142,7 +140,7 @@ public class Furniture_grid
             // occupy grid
             Occupy_grid(global_to_array(placement), piece);
         }
-        Draw_obstacles(this.grid);
+        //Draw_obstacles(this.grid);
     }
 
   
@@ -179,14 +177,18 @@ public class Furniture_grid
                 foreach (Furniture_tile tile in this.grid)
                 {
                     if (tile.pos_x + piece.dimensions[0] / 2 != room_center[0] + room_dimensions[0] / 2 &&
-                        tile.pos_x - piece.dimensions[0] / 2 != room_center[0] - room_dimensions[0] / 2 &&
+                        tile.pos_x - piece.dimensions[0] / 2 != room_center[0] - room_dimensions[0] / 2 + 1 &&
                         tile.pos_z + piece.dimensions[1] / 2 != room_center[1] + room_dimensions[1] / 2 &&
-                        tile.pos_z - piece.dimensions[1] / 2 != room_center[1] - room_dimensions[1] / 2)
+                        tile.pos_z - piece.dimensions[1] / 2 != room_center[1] - room_dimensions[1] / 2 + 1)
                     {
                         continue;
                     }
-                    if (!IsValid(tile, piece)) continue;
+                    if (!IsValid(tile, piece))
+                    {
+                        continue;
+                    }
                     pot_places.Add(new Vector2(tile.pos_x, tile.pos_z));
+                    //Debug.DrawLine(new Vector3(tile.pos_x, 0, tile.pos_z), new Vector3(tile.pos_x, 15, tile.pos_z), Color.yellow, 60f);
                 }
                 break;
 
