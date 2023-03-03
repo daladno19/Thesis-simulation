@@ -143,8 +143,6 @@ public class Furniture_grid
         //Draw_obstacles(this.grid);
     }
 
-  
-
     // function to occupy tiles taken by new furniture piece
     public void Occupy_grid(Vector2 center_arr, Furniture piece)
     {

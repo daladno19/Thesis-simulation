@@ -120,4 +120,84 @@ public class Furniture
     {
         return new Furniture(new Vector2(10, 10), 5f, "Prefabs/Square_Table", "any");
     }
+
+    // TODO no prefabs, adjust float height
+    public static Furniture GlassShelf()
+    {
+        return new Furniture(new Vector2(15, 5), 5f, "Prefabs/Glass_Shelf", "any");
+    }
+
+    public static Furniture GlassTable()
+    {
+        return new Furniture(new Vector2(10, 6), 3f, "Prefabs/Glass_Table", "any");
+    }
+
+    public static Furniture TvTable()
+    {
+        return new Furniture(new Vector2(12, 5), 2f, "Prefabs/Tv_Table", "any");
+    }
+
+    public static Furniture Speaker()
+    {
+        return new Furniture(new Vector2(4, 3), 5f, "Prefabs/Speaker", "any");
+    }
+
+    public static Furniture Puff()
+    {
+        return new Furniture(new Vector2(5, 4), 5f, "Prefabs/Puff", "any");
+    }
+
+    public static Furniture BigCouch()
+    {
+        return new Furniture(new Vector2(22, 11), 5f, "Prefabs/Big_Couch", "any");
+    }
+
+    public static Furniture BoofShelf()
+    {
+        return new Furniture(new Vector2(12, 4), 5f, "Prefabs/Book_Shelf", "wall");
+    }
+
+    public static Furniture BedroomCounter()
+    {
+        return new Furniture(new Vector2(10, 5), 5f, "Prefabs/Bedroom_Counter", "wall");
+    }
+
+    public static Furniture BigBed()
+    {
+        return new Furniture(new Vector2(22, 17), 4f, "Prefabs/Big_Bed", "any");
+    }
+
+    public static Furniture Shelf()
+    {
+        return new Furniture(new Vector2(10, 4), 5f, "Prefabs/Shelf", "any");
+    }
+
+    public static Furniture Medium_Bed()
+    {
+        return new Furniture(new Vector2(22, 14), 5f, "Prefabs/Medium_Bed", "any");
+    }
+
+    public static Furniture OfficeTable()
+    {
+        return new Furniture(new Vector2(14,6), 5f, "Prefabs/Office_Table", "any");
+    }
+
+    public static Furniture Bathtub()
+    {
+        return new Furniture(new Vector2(17, 7), 5f, "Prefabs/Bathtub", "any");
+    }
+
+    public static Furniture Shower()
+    {
+        return new Furniture(new Vector2(14, 10), 9f, "Prefabs/Shower", "wall");
+    }
+
+    public static Furniture Toilet()
+    {
+        return new Furniture(new Vector2(6, 4), 3f, "Prefabs/Toilet", "wall");
+    }
+
+
+
+
 }
