@@ -113,7 +113,8 @@ public class Room_generator : MonoBehaviour
         {
             Furniture_grid grid = new Furniture_grid(room);
         }
-        //Furniture_grid grid = new Furniture_grid(room_list[2].room_center, room_list[2].room_dimensions, room_list[2].room_type);
+
+        GameObject.Instantiate(Resources.Load("Prefabs/Robot"), new Vector3(5,1,5), Quaternion.identity);
     }
 
     // function to make door between two rooms
