@@ -11,9 +11,7 @@ public class Robot_Movement : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        this.Left_wheel = GameObject.Find("L_wheel");
-        this.Right_wheel = GameObject.Find("R_wheel");
-        this.Body = GameObject.Find("Robot");
+
     }
 
     // Update is called once per frame
