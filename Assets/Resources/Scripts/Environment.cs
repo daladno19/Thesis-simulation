@@ -63,7 +63,7 @@ public class Environment
         }
     }
 
-    public int Round_to_ten(int number)
+    public static int Round_to_ten(int number)
     {
         if (number % 10 >= 5)
             return number + (10 - number % 10);

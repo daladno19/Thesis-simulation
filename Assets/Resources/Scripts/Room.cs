@@ -109,11 +109,11 @@ public struct Room
                     {
                         if (wall.transform.position.z + wall.transform.localScale.z / 2 > corner2[1])
                         {
-                            corner2[1] = Room_generator.Round_to_tens((int)(wall.transform.position.z + wall.transform.localScale.z / 2 - 1));
+                            corner2[1] = Environment.Round_to_ten((int)(wall.transform.position.z + wall.transform.localScale.z / 2 - 1));
                         }
                         if (wall.transform.position.z - wall.transform.localScale.z / 2 < corner1[1])
                         {
-                            corner1[1] = Room_generator.Round_to_tens((int)(wall.transform.position.z - wall.transform.localScale.z / 2 + 1));
+                            corner1[1] = Environment.Round_to_ten((int)(wall.transform.position.z - wall.transform.localScale.z / 2 + 1));
 
                         }
 
@@ -153,11 +153,11 @@ public struct Room
                     {
                         if (wall.transform.position.x + wall.transform.localScale.x / 2 > corner2[0])
                         {
-                            corner2[0] = Room_generator.Round_to_tens((int)(wall.transform.position.x + wall.transform.localScale.x / 2));
+                            corner2[0] = Environment.Round_to_ten((int)(wall.transform.position.x + wall.transform.localScale.x / 2));
                         }
                         if (wall.transform.position.x - wall.transform.localScale.x / 2 < corner1[0])
                         {
-                            corner1[0] = Room_generator.Round_to_tens((int)(wall.transform.position.x - wall.transform.localScale.x / 2));
+                            corner1[0] = Environment.Round_to_ten((int)(wall.transform.position.x - wall.transform.localScale.x / 2));
 
                         }
                         UnityEngine.Object.Destroy(wall);
