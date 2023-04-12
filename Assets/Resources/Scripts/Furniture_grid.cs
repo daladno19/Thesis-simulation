@@ -76,14 +76,37 @@ public class Furniture_grid
         kitchen_furniture[8] = new Furniture_delegate(Furniture.Stool);
         kitchen_furniture[9] = new Furniture_delegate(Furniture.SquareTable);
 
-        Furniture_delegate[] bathroom_furniture = debug_furniture;
+        Furniture_delegate[] bathroom_furniture = new Furniture_delegate[3];
+        bathroom_furniture[0] = new Furniture_delegate(Furniture.Bathtub);
+        bathroom_furniture[1] = new Furniture_delegate(Furniture.Toilet);
+        bathroom_furniture[2] = new Furniture_delegate(Furniture.Shower);
 
-        Furniture_delegate[] office_furniture = debug_furniture;
+        Furniture_delegate[] office_furniture = new Furniture_delegate[6];
+        office_furniture[0] = new Furniture_delegate(Furniture.OfficeTable);
+        office_furniture[1] = new Furniture_delegate(Furniture.Puff);
+        office_furniture[2] = new Furniture_delegate(Furniture.BookShelf);
+        office_furniture[3] = new Furniture_delegate(Furniture.GlassShelf);
+        office_furniture[4] = new Furniture_delegate(Furniture.Couch);
+        office_furniture[5] = new Furniture_delegate(Furniture.GlassTable);
 
-        Furniture_delegate[] livingroom_furniture = debug_furniture;
-
-        Furniture_delegate[] bedroom_furniture = debug_furniture;
-
+        Furniture_delegate[] livingroom_furniture = new Furniture_delegate[10];
+        livingroom_furniture[0] = new Furniture_delegate(Furniture.Buffet);
+        livingroom_furniture[1] = new Furniture_delegate(Furniture.Sofa);
+        livingroom_furniture[2] = new Furniture_delegate(Furniture.BigShelf);
+        livingroom_furniture[3] = new Furniture_delegate(Furniture.Puff);
+        livingroom_furniture[4] = new Furniture_delegate(Furniture.BigCouch);
+        livingroom_furniture[5] = new Furniture_delegate(Furniture.ShoeRack);
+        livingroom_furniture[6] = new Furniture_delegate(Furniture.Speaker);
+        livingroom_furniture[7] = new Furniture_delegate(Furniture.TvTable);
+        livingroom_furniture[8] = new Furniture_delegate(Furniture.Shelf);
+        livingroom_furniture[9] = new Furniture_delegate(Furniture.SmallTable);
+        
+        Furniture_delegate[] bedroom_furniture = new Furniture_delegate[5];
+        bedroom_furniture[0] = new Furniture_delegate(Furniture.MediumBed);
+        bedroom_furniture[1] = new Furniture_delegate(Furniture.BigBed);
+        bedroom_furniture[2] = new Furniture_delegate(Furniture.BedroomCounter);
+        bedroom_furniture[3] = new Furniture_delegate(Furniture.Stool);
+        bedroom_furniture[4] = new Furniture_delegate(Furniture.BigShelf);
        
 
         // choose correct furniture pool according to room type
