@@ -13,8 +13,9 @@ public class controller_script : MonoBehaviour
         int seed = 0;
         if (seed == 0)
         {
-            seed = rnd.Next(1, 100);
+            seed = rnd.Next(1, 10000);
         }
+        Debug.Log(seed);
 
         // build environment skeleton
         Environment environment = new Environment(seed);
