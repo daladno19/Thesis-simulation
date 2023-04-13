@@ -40,7 +40,7 @@ public struct Room
                 floor.GetComponent<MeshRenderer>().material = (Material)Resources.Load("materials/Officeroom_floor_material", typeof(Material)) as Material;
                 break;
         }
-        //floor.GetComponent<MeshRenderer>().material = (Material)Resources.Load("materials/Bedroom_floor_material", typeof(Material)) as Material;
+        floor.tag = "Floor";
 
         // calculating room corners
         room_corners = new Vector2[4];

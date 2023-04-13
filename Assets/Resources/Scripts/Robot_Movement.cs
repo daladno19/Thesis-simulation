@@ -17,8 +17,7 @@ public class Robot_Movement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        this.Left_wheel.GetComponent<Rigidbody>().velocity = this.Body.transform.forward;
-        this.Right_wheel.GetComponent<Rigidbody>().velocity = this.Body.transform.forward;
+        
 
     }
 }
