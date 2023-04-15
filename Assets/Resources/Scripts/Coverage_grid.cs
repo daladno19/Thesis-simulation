@@ -46,7 +46,7 @@ public class Coverage_grid
                 bool floored = false;
                 foreach (RaycastHit hit in hit_arr)
                 {
-                    Debug.Log(hit.transform.tag + " at X: " + x + " Y:" + hit.transform.position.y + " Z: " + z + " || " + hit.transform.name);
+                    //Debug.Log(hit.transform.tag + " at X: " + x + " Y:" + hit.transform.position.y + " Z: " + z + " || " + hit.transform.name);
                     if (hit.transform.tag == "Floor")
                     {
                         floored = true;
@@ -64,7 +64,7 @@ public class Coverage_grid
                 if (available && floored)
                 {
                     GameObject.Instantiate(Resources.Load("Prefabs/Invisible_Tile"), new Vector3(x, 0, z), Quaternion.identity);
-                    Debug.DrawLine(new Vector3(x, 0.5f, z), new Vector3(x, -0.5f, z), Color.green, 60f);
+                    //Debug.DrawLine(new Vector3(x, 0.5f, z), new Vector3(x, -0.5f, z), Color.green, 60f);
                 }
                   
             }

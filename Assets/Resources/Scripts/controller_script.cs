@@ -65,6 +65,7 @@ public class controller_script : MonoBehaviour
         Coverage_grid coverage = new Coverage_grid(environment);
     }
 
+
     public bool viablePos(Vector3 pos)
     {
         RaycastHit hit = new RaycastHit();
