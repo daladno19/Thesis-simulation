@@ -133,7 +133,7 @@ public class Furniture_grid
                 break;
         }
 
-        int furniture_num = rnd.Next((int)(room_dimensions[0] * room_dimensions[1]) / 300, (int)(room_dimensions[0] * room_dimensions[1]) / 150);
+        int furniture_num = rnd.Next((int)(room_dimensions[0] * room_dimensions[1]) / 500, (int)(room_dimensions[0] * room_dimensions[1]) / 300);
 
         for (int i = 0; i < furniture_num; i++)
         {

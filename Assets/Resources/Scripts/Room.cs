@@ -22,6 +22,7 @@ public struct Room
         GameObject floor = GameObject.CreatePrimitive(PrimitiveType.Plane);
         floor.transform.position = new Vector3(room_center[0], 0, room_center[1]);
         floor.transform.localScale = new Vector3((int)Mathf.Round(room_dimensions[0]) / 10, 1, (int)Mathf.Round(room_dimensions[1]) / 10); // "100/10" = "global_coords / local_scale_factor "
+        floor.AddComponent<BoxCollider>();
         switch (this.room_type)
         {
             case "bedroom":

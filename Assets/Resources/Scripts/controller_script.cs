@@ -10,7 +10,7 @@ public class controller_script : MonoBehaviour
         System.Random rnd = new System.Random();
 
         // get new  seed
-        int seed = 0;
+        int seed = 0; //1978 - small seed
         if (seed == 0)
         {
             seed = rnd.Next(1, 10000);
@@ -20,13 +20,7 @@ public class controller_script : MonoBehaviour
         // build environment skeleton
         Environment environment = new Environment(seed);
 
-        // populate each room with furniture
-        foreach (Room room in environment.room_list)
-        {
-            Furniture_grid grid = new Furniture_grid(room);
-        }
         // find max x and max z
-
         int max_x = 0;
         int max_z = 0;
 
@@ -41,33 +35,53 @@ public class controller_script : MonoBehaviour
             }
         }
 
-        //spawn agents
-        int number_of_agents = 5;
-        RaycastHit floor_check = new RaycastHit();
 
-        for (int spawned_agents = 0; spawned_agents < number_of_agents; spawned_agents++)
+
+        // populate each room with furniture
+        foreach (Room room in environment.room_list)
         {
-            Vector2Int spawn_location = new Vector2Int(rnd.Next(0, max_x), rnd.Next(0, max_z));
-
-            if ((Physics.Raycast(new Vector3(spawn_location.x,   31, spawn_location.y),   Vector3.down, out floor_check, 31f) && floor_check.transform.tag != "Floor") ||
-                (Physics.Raycast(new Vector3(spawn_location.x-2, 31, spawn_location.y),   Vector3.down, out floor_check, 31f) && floor_check.transform.tag != "Floor") ||
-                (Physics.Raycast(new Vector3(spawn_location.x,   31, spawn_location.y-2), Vector3.down, out floor_check, 31f) && floor_check.transform.tag != "Floor") ||
-                (Physics.Raycast(new Vector3(spawn_location.x+2, 31, spawn_location.y),   Vector3.down, out floor_check, 31f) && floor_check.transform.tag != "Floor") ||
-                (Physics.Raycast(new Vector3(spawn_location.x,   31, spawn_location.y+2), Vector3.down, out floor_check, 31f) && floor_check.transform.tag != "Floor") ||
-                (Physics.Raycast(new Vector3(spawn_location.x-2, 31, spawn_location.y-2), Vector3.down, out floor_check, 31f) && floor_check.transform.tag != "Floor") ||
-                (Physics.Raycast(new Vector3(spawn_location.x-2, 31, spawn_location.y+2), Vector3.down, out floor_check, 31f) && floor_check.transform.tag != "Floor") ||
-                (Physics.Raycast(new Vector3(spawn_location.x+2, 31, spawn_location.y-2), Vector3.down, out floor_check, 31f) && floor_check.transform.tag != "Floor") ||
-                (Physics.Raycast(new Vector3(spawn_location.x+2, 31, spawn_location.y+2), Vector3.down, out floor_check, 31f) && floor_check.transform.tag != "Floor"))
-            {
-                spawned_agents--;
-                continue;
-            }
-            GameObject.Instantiate(Resources.Load("Prefabs/Agent"), new Vector3(spawn_location.x, 1, spawn_location.y), Quaternion.identity);
+            Furniture_grid grid = new Furniture_grid(room);
         }
 
-        //GameObject.Instantiate(Resources.Load("Prefabs/Agent"), new Vector3(5,30,5), Quaternion.identity);
+        
+
+        //spawn agents
+        int number_of_agents = 5;
+        Quaternion[] rotations = {Quaternion.Euler(0, 0, 0), Quaternion.Euler(0, 90, 0), Quaternion.Euler(0, 180, 0), Quaternion.Euler(0, 270, 0)};
+
+        do 
+        {
+            Vector3 pot_pos = new Vector3(rnd.Next(0, max_x), 35, rnd.Next(0, max_z));
+
+            if (viablePos(pot_pos))
+            {
+                GameObject.Instantiate(Resources.Load("Prefabs/Agent"), new Vector3(pot_pos.x, 1, pot_pos.z), rotations[rnd.Next(0, 4)]);
+                number_of_agents--;
+            }
+            
+        }
+        while (number_of_agents != 0);
+
+        Coverage_grid coverage = new Coverage_grid(environment);
     }
 
-    // Update is called once per frame
+    public bool viablePos(Vector3 pos)
+    {
+        RaycastHit hit = new RaycastHit();
 
+        if ((Physics.Raycast(pos + new Vector3(0, 0, -2), Vector3.down, out hit, 40f) && hit.transform.tag == "Floor") &&
+            (Physics.Raycast(pos + new Vector3(0, 0, 0), Vector3.down, out hit, 40f) && hit.transform.tag == "Floor") &&
+            (Physics.Raycast(pos + new Vector3(0, 0, +2), Vector3.down, out hit, 40f) && hit.transform.tag == "Floor") &&
+            (Physics.Raycast(pos + new Vector3(2, 0, -2), Vector3.down, out hit, 40f) && hit.transform.tag == "Floor") &&
+            (Physics.Raycast(pos + new Vector3(2, 0, 0), Vector3.down, out hit, 40f) && hit.transform.tag == "Floor") &&
+            (Physics.Raycast(pos + new Vector3(2, 0, +2), Vector3.down, out hit, 40f) && hit.transform.tag == "Floor") &&
+            (Physics.Raycast(pos + new Vector3(-2, 0, -2), Vector3.down, out hit, 40f) && hit.transform.tag == "Floor") &&
+            (Physics.Raycast(pos + new Vector3(-2, 0, 0), Vector3.down, out hit, 40f) && hit.transform.tag == "Floor") &&
+            (Physics.Raycast(pos + new Vector3(-2, 0, +2), Vector3.down, out hit, 40f) && hit.transform.tag == "Floor"))
+        {
+            return true;
+        }
+
+        return false;
+    }
 }
