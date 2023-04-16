@@ -10,7 +10,7 @@ public class controller_script : MonoBehaviour
         System.Random rnd = new System.Random();
 
         // get new  seed
-        int seed = 0; //1978 - small seed
+        int seed = 1978; //1978 - small seed // 7873 - broken seed
         if (seed == 0)
         {
             seed = rnd.Next(1, 10000);
@@ -43,22 +43,23 @@ public class controller_script : MonoBehaviour
             Furniture_grid grid = new Furniture_grid(room);
         }
 
-        
+
 
         //spawn agents
         int number_of_agents = 5;
-        Quaternion[] rotations = {Quaternion.Euler(0, 0, 0), Quaternion.Euler(0, 90, 0), Quaternion.Euler(0, 180, 0), Quaternion.Euler(0, 270, 0)};
+        Quaternion[] rotations = { Quaternion.Euler(0, 0, 0), Quaternion.Euler(0, 90, 0), Quaternion.Euler(0, 180, 0), Quaternion.Euler(0, 270, 0) };
 
-        do 
+        do
         {
             Vector3 pot_pos = new Vector3(rnd.Next(0, max_x), 35, rnd.Next(0, max_z));
 
             if (viablePos(pot_pos))
             {
-                GameObject.Instantiate(Resources.Load("Prefabs/Agent"), new Vector3(pot_pos.x, 1, pot_pos.z), rotations[rnd.Next(0, 4)]);
+                GameObject agent = GameObject.Instantiate(Resources.Load("Prefabs/Agent"), new Vector3(pot_pos.x, 1, pot_pos.z), rotations[rnd.Next(0, 4)]) as GameObject;
+                agent.GetComponent<Agent>().id = number_of_agents;
                 number_of_agents--;
             }
-            
+
         }
         while (number_of_agents != 0);
 

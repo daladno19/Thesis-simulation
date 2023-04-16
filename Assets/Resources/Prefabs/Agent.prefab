@@ -488,6 +488,19 @@ MonoBehaviour:
   Body: {fileID: 2679416579652569486}
   Left_wheel: {fileID: 2679416578656953819}
   Right_wheel: {fileID: 2679416578351862479}
+  id: 1
+  body_material_arr:
+  - {fileID: 2100000, guid: a108634556189da4b863e34d7c338cfe, type: 2}
+  - {fileID: 2100000, guid: 79a943c07ab3ce34c8ebbb7264158f12, type: 2}
+  - {fileID: 2100000, guid: 629a4f33f7b3c8a40ab84d36479c2bbf, type: 2}
+  - {fileID: 2100000, guid: 812b5472b08c7f840a634502cb2240eb, type: 2}
+  - {fileID: 2100000, guid: 5c61e8545c5b12349af9e510161d586b, type: 2}
+  trail_material_arr:
+  - {fileID: 2100000, guid: a43303cf8a8fed943a8efa9f3f1636a5, type: 2}
+  - {fileID: 2100000, guid: 336077cf21f130c40be8115cc3b05c0e, type: 2}
+  - {fileID: 2100000, guid: 71622bad47c949247afdf81170c78f89, type: 2}
+  - {fileID: 2100000, guid: 2d3040df3453465439b477de4bb14f98, type: 2}
+  - {fileID: 2100000, guid: ebb89d5979313f443ab9bf11e1f3792c, type: 2}
 --- !u!1 &2679416579652569486
 GameObject:
   m_ObjectHideFlags: 0

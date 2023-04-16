@@ -184,7 +184,7 @@ public class Furniture
 
     public static Furniture Bathtub()
     {
-        return new Furniture(new Vector2(17, 7), 0.5f, "Prefabs/Bathtub", "any");
+        return new Furniture(new Vector2(18, 7), 0.5f, "Prefabs/Bathtub", "any");
     }//
 
     public static Furniture Shower()
