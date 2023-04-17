@@ -17,6 +17,7 @@ public class controller_script : MonoBehaviour
         }
         Debug.Log(seed);
 
+        System.Random rnd_seed = new System.Random(seed);
         // build environment skeleton
         Environment environment = new Environment(seed);
 
@@ -45,15 +46,17 @@ public class controller_script : MonoBehaviour
 
 
 
+
+
         //spawn agents
         int number_of_agents = 5;
         Quaternion[] rotations = { Quaternion.Euler(0, 0, 0), Quaternion.Euler(0, 90, 0), Quaternion.Euler(0, 180, 0), Quaternion.Euler(0, 270, 0) };
 
         do
         {
-            Vector3 pot_pos = new Vector3(rnd.Next(0, max_x), 35, rnd.Next(0, max_z));
+            Vector3 pot_pos = new Vector3(rnd_seed.Next(0, max_x), 35, rnd_seed.Next(0, max_z));
 
-            if (viablePos(pot_pos))
+            if (viablePos(pot_pos, number_of_agents))
             {
                 GameObject agent = GameObject.Instantiate(Resources.Load("Prefabs/Agent"), new Vector3(pot_pos.x, 1, pot_pos.z), rotations[rnd.Next(0, 4)]) as GameObject;
                 agent.GetComponent<Agent>().id = number_of_agents;
@@ -66,10 +69,10 @@ public class controller_script : MonoBehaviour
         Coverage_grid coverage = new Coverage_grid(environment);
     }
 
-    public bool viablePos(Vector3 pos)
+    public bool viablePos(Vector3 pos, int id)
     {
         RaycastHit hit = new RaycastHit();
-
+        bool floored = false;
         if ((Physics.Raycast(pos + new Vector3(0, 0, -2), Vector3.down, out hit, 40f) && hit.transform.tag == "Floor") &&
             (Physics.Raycast(pos + new Vector3(0, 0, 0), Vector3.down, out hit, 40f) && hit.transform.tag == "Floor") &&
             (Physics.Raycast(pos + new Vector3(0, 0, +2), Vector3.down, out hit, 40f) && hit.transform.tag == "Floor") &&
@@ -80,9 +83,41 @@ public class controller_script : MonoBehaviour
             (Physics.Raycast(pos + new Vector3(-2, 0, 0), Vector3.down, out hit, 40f) && hit.transform.tag == "Floor") &&
             (Physics.Raycast(pos + new Vector3(-2, 0, +2), Vector3.down, out hit, 40f) && hit.transform.tag == "Floor"))
         {
-            return true;
+            floored = true;
         }
+        bool obstacle = false;
 
+        RaycastHit[] hit_arr = Physics.BoxCastAll(pos, new Vector3(3, 1, 3), Vector3.up * -1);
+        foreach (RaycastHit hitt in hit_arr)
+        {
+            if (hitt.transform.tag == "Obstacle" || hitt.transform.tag == "Wall" || hitt.transform.tag == "Agent")
+                obstacle = true;
+        }
+        Debug.Log("id: " + id + " || floored: " + floored + " || obstacle: " + obstacle + " || pos: " + pos);
+
+        if (floored && !obstacle)
+            return true;
+        return false;
+    }
+
+    public bool viablePos_box(Vector3 pos, int id)
+    {
+        bool floored = false;
+        bool obstacle = false;
+        RaycastHit[] hit_arr = Physics.BoxCastAll(pos, new Vector3(2, 1, 2), Vector3.up * -1);
+
+        //string msg ="id: " + id + " ";
+        foreach (RaycastHit hit in hit_arr)
+        {
+            //msg += hit.transform.tag + " || ";
+            if (hit.transform.tag == "Floor")
+                floored = true;
+            if (hit.transform.tag == "Obstacle" || hit.transform.tag == "Wall" || hit.transform.tag == "Agent")
+                obstacle = true;
+        }
+        Debug.Log("id: " + id + " || floored: " + floored + " || obstacle: " + obstacle); 
+        if (floored && !obstacle)
+            return true;
         return false;
     }
 }

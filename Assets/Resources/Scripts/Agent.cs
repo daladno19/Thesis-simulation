@@ -86,7 +86,7 @@ public class Agent : MonoBehaviour
             if (Physics.Raycast(Body.transform.position + new Vector3(0, 1, 0), Quaternion.AngleAxis(rotation, Body.transform.up) * Body.transform.right, out sensor_hit, 7f)
                 && (sensor_hit.transform.tag == "Wall" || sensor_hit.transform.tag == "Obstacle"))
             {
-                Debug.Log(sensor_hit.distance);
+                //Debug.Log(sensor_hit.distance);
                 //distance_arr[(int)Mathf.Round(rotation / 45f)-1] = sensor_hit.distance;
             }
             //else
