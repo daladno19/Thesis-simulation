@@ -7,4 +7,5 @@ public class Tile : MonoBehaviour
 {
     public bool covered;
     public bool overlaped;
+    public int coverer = 0;
 }

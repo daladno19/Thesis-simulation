@@ -10,7 +10,7 @@ public class Agent : MonoBehaviour
     public int id = -1;
     public Material[] body_material_arr;
     public Material[] trail_material_arr;
-    
+
     private Color ray_color;
     private Material body_material;
     private Material trail_material;
@@ -62,9 +62,15 @@ public class Agent : MonoBehaviour
                 if (!tile.covered)
                 {
                     tile.covered = true;
+                    tile.coverer = this.id;
                     hit.transform.GetComponent<MeshRenderer>().material = this.trail_material;
                 }
 
+                if (tile.covered && tile.coverer != this.id)
+                {
+                    tile.overlaped = true;
+                    hit.transform.GetComponent<MeshRenderer>().material = (Material)Resources.Load("materials/Agent_Materials/cyan_trail");
+                }
             }
         }
 
@@ -73,7 +79,20 @@ public class Agent : MonoBehaviour
             Debug.DrawRay(Body.transform.position + new Vector3(0,1,0), Quaternion.AngleAxis(rotation, Body.transform.up) * Body.transform.right * 7, ray_color);
         }
 
-        
+        RaycastHit sensor_hit = new RaycastHit();
+        float[] distance_arr = new float[8];
+        for (float rotation = 0f; rotation <= 360f; rotation += 45f)
+        {
+            if (Physics.Raycast(Body.transform.position + new Vector3(0, 1, 0), Quaternion.AngleAxis(rotation, Body.transform.up) * Body.transform.right, out sensor_hit, 7f)
+                && (sensor_hit.transform.tag == "Wall" || sensor_hit.transform.tag == "Obstacle"))
+            {
+                Debug.Log(sensor_hit.distance);
+                //distance_arr[(int)Mathf.Round(rotation / 45f)-1] = sensor_hit.distance;
+            }
+            //else
+            //    distance_arr[(int)Mathf.Round(rotation / 45f)-1] = 7f;
+        }
 
+        //Debug.Log(id + " || " + distance_arr);
     }
 }
