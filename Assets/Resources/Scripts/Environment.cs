@@ -415,15 +415,13 @@ public class Environment
             }
             int[] x_points = { (int)room1.room_corners[0][0], (int)room1.room_corners[1][0], (int)room2.room_corners[0][0], (int)room2.room_corners[1][0] };
             Array.Sort(x_points);
-
-            //Debug.DrawLine(new Vector3(x_points[0], 11, z_bounds), new Vector3(x_points[3], 11, z_bounds), Color.green, 60f);
-            //Debug.DrawLine(new Vector3(x_points[1], 0, z_bounds), new Vector3(x_points[1], 30, z_bounds), Color.blue, 60f);
-            //Debug.DrawLine(new Vector3(x_points[2], 0, z_bounds), new Vector3(x_points[2], 30, z_bounds), Color.blue, 60f);
-
             Vector2 door = new Vector2((x_points[1] + x_points[2]) / 2, z_bounds);
-            //Debug.DrawLine(new Vector3(door[0], 0, door[1]), new Vector3(door[0], 30, door[1]), Color.yellow, 60f);
             Room.Build_wall_w_door(new Vector2(x_points[0], z_bounds), new Vector2(x_points[3], z_bounds), door, "horizontal");
         }
     }
 
+    public void Cut_door_V2(Room room1, Room room2)
+    { 
+        
+    }
 }

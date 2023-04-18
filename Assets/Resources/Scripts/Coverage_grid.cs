@@ -32,7 +32,7 @@ public class Coverage_grid
             for (float z = 0; z <= max_z; z += sample_step)
             {
                 Vector3 tile_pos = new Vector3(x, - 0.5f, z);
-                RaycastHit[] hit_arr = Physics.SphereCastAll(tile_pos, sample_step/2, Vector3.up, 1f);
+                RaycastHit[] hit_arr = Physics.BoxCastAll(tile_pos, new Vector3(sample_step/2, sample_step / 2, sample_step / 2), Vector3.up, Quaternion.identity,1f);
                 
                 bool available = true;
                 /*RaycastHit wall_hit = new RaycastHit();
@@ -51,10 +51,16 @@ public class Coverage_grid
                     {
                         floored = true;
                     }
-                    if (hit.transform.tag == "Obstacle" || hit.transform.tag == "Wall")
+                    if (hit.transform.tag == "Obstacle")
                     {
                         available = false;
-                        //Debug.Log("X = " + x + " || Z = " + z + " || Obstacle or wall");
+                        Debug.DrawLine(new Vector3(x,0,z), new Vector3(x,10,z), Color.blue, 60f);
+                        break;
+                    }
+                    if (hit.transform.tag == "Wall")
+                    {
+                        available = false;
+                        Debug.DrawLine(new Vector3(x, 0, z), new Vector3(x, 10, z), Color.red, 60f);
                         break;
                     }
 

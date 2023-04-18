@@ -10,7 +10,7 @@ public class controller_script : MonoBehaviour
         System.Random rnd = new System.Random();
 
         // get new  seed
-        int seed = 1978; //1978 - small seed // 7873 - broken seed
+        int seed = 7873; //1978 - small seed // 7873 - broken seed
         if (seed == 0)
         {
             seed = rnd.Next(1, 10000);
@@ -87,35 +87,14 @@ public class controller_script : MonoBehaviour
         }
         bool obstacle = false;
 
-        RaycastHit[] hit_arr = Physics.BoxCastAll(pos, new Vector3(3, 1, 3), Vector3.up * -1);
+        RaycastHit[] hit_arr = Physics.BoxCastAll(pos, new Vector3(2, 1, 2), Vector3.up * -1);
         foreach (RaycastHit hitt in hit_arr)
         {
             if (hitt.transform.tag == "Obstacle" || hitt.transform.tag == "Wall" || hitt.transform.tag == "Agent")
                 obstacle = true;
         }
-        Debug.Log("id: " + id + " || floored: " + floored + " || obstacle: " + obstacle + " || pos: " + pos);
+        //Debug.Log("id: " + id + " || floored: " + floored + " || obstacle: " + obstacle + " || pos: " + pos);
 
-        if (floored && !obstacle)
-            return true;
-        return false;
-    }
-
-    public bool viablePos_box(Vector3 pos, int id)
-    {
-        bool floored = false;
-        bool obstacle = false;
-        RaycastHit[] hit_arr = Physics.BoxCastAll(pos, new Vector3(2, 1, 2), Vector3.up * -1);
-
-        //string msg ="id: " + id + " ";
-        foreach (RaycastHit hit in hit_arr)
-        {
-            //msg += hit.transform.tag + " || ";
-            if (hit.transform.tag == "Floor")
-                floored = true;
-            if (hit.transform.tag == "Obstacle" || hit.transform.tag == "Wall" || hit.transform.tag == "Agent")
-                obstacle = true;
-        }
-        Debug.Log("id: " + id + " || floored: " + floored + " || obstacle: " + obstacle); 
         if (floored && !obstacle)
             return true;
         return false;

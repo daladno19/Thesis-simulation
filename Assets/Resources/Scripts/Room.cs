@@ -65,6 +65,8 @@ public struct Room
         wall.transform.localScale = new Vector3(Mathf.Abs(corner1[0] - corner2[0]) + 1, 22, Mathf.Abs(corner1[1] - corner2[1]) + 1);
         wall.GetComponent<MeshRenderer>().material = (Material)Resources.Load("materials/Wall_material", typeof(Material)) as Material;
         wall.tag = "Wall";
+        GameObject.Destroy(wall.GetComponent<BoxCollider>());
+        wall.AddComponent<BoxCollider>();
     }
 
     //function to create invisible door
@@ -117,8 +119,8 @@ public struct Room
                             corner1[1] = Environment.Round_to_ten((int)(wall.transform.position.z - wall.transform.localScale.z / 2 + 1));
 
                         }
-
-                        UnityEngine.Object.Destroy(wall);
+                        //GameObject.Destroy(wall.GetComponent<BoxCollider>());
+                        GameObject.Destroy(wall);
                     }
                 }
                 Build_Wall(corner1, new Vector2(door[0], door[1] - 4));
@@ -171,4 +173,33 @@ public struct Room
         }
     }
 
+    public static void Build_wall__w_door_V2(Vector2 door_coords, string orientation)
+    {
+
+        Vector2 door_corners = new Vector2();
+
+        switch (orientation)
+        {
+            case "vertical":
+                door_corners[0] = door_coords[1] - 4;
+                door_corners[1] = door_coords[1] + 4;
+                    break;
+
+            case "horizontal":
+                door_corners[0] = door_coords[0] - 4;
+                door_corners[1] = door_coords[0] + 4;
+                break;
+        }
+
+        RaycastHit[] hit_walls = Physics.BoxCastAll(new Vector3(door_coords.x, 30, door_coords.y), new Vector3(1, 0.3f, 1), Vector3.down, Quaternion.identity, 10f);
+
+        int[] wall_corners = new int[hit_walls.Length * 2];
+
+        foreach (RaycastHit wall in hit_walls)
+        {
+            
+        }
+
+
+    }
 }
