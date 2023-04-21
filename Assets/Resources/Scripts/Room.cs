@@ -176,30 +176,5 @@ public struct Room
     public static void Build_wall__w_door_V2(Vector2 door_coords, string orientation)
     {
 
-        Vector2 door_corners = new Vector2();
-
-        switch (orientation)
-        {
-            case "vertical":
-                door_corners[0] = door_coords[1] - 4;
-                door_corners[1] = door_coords[1] + 4;
-                    break;
-
-            case "horizontal":
-                door_corners[0] = door_coords[0] - 4;
-                door_corners[1] = door_coords[0] + 4;
-                break;
-        }
-
-        RaycastHit[] hit_walls = Physics.BoxCastAll(new Vector3(door_coords.x, 30, door_coords.y), new Vector3(1, 0.3f, 1), Vector3.down, Quaternion.identity, 10f);
-
-        int[] wall_corners = new int[hit_walls.Length * 2];
-
-        foreach (RaycastHit wall in hit_walls)
-        {
-            
-        }
-
-
     }
 }
