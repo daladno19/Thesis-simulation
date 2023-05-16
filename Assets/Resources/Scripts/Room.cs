@@ -78,103 +78,64 @@ public struct Room
         door.tag = "Door";
     }
 
-    public static void Build_wall_w_door(Vector2 corner1, Vector2 corner2, Vector2 door, string orientation)
+    public static void Door(Vector2 door_pos)
     {
-        switch (orientation)
+        Debug.DrawLine(new Vector3(door_pos.x, 30, door_pos.y), new Vector3(door_pos.x, 0, door_pos.y), Color.red, 60f);
+
+        int door_x = (int)door_pos.x;
+        int door_z = (int)door_pos.y;
+
+        RaycastHit[] walls_hit = Physics.BoxCastAll(new Vector3(door_x, 30, door_z), new Vector3(3,1,3), Vector3.down);
+
+        foreach (RaycastHit hit in walls_hit)
         {
-            // if wall is vertical
-            case "vertical":
+            if(hit.transform.tag == "Wall")
+            {
+                //Debug.DrawLine(new Vector3(door_x, 30, door_z), hit.transform.position, Color.blue, 60f);
+                int scale_x = (int)hit.transform.localScale.x;
+                int scale_z = (int)hit.transform.localScale.z;
 
-                // check for other doors on the same wall
-                foreach (GameObject prev_door in GameObject.FindGameObjectsWithTag("Door"))
-                {
-                    if (prev_door.transform.position.x == door[0] &&
-                        prev_door.transform.position.z >= corner1[1] &&
-                        prev_door.transform.position.z <= corner2[1])
-                    {
-                        // if other door is found on the same wall, change corner1 or corner2 to prev_door position
-                        if (Mathf.Abs(corner1[1] - prev_door.transform.position.z) < Mathf.Abs(corner2[1] - prev_door.transform.position.z))
-                        {
-                            corner1 = new Vector2(prev_door.transform.position.x, prev_door.transform.position.z + 4);
-                        }
-                        else
-                        {
-                            corner2 = new Vector2(prev_door.transform.position.x, prev_door.transform.position.z - 4);
-                        }
-                    }
-                }
-                // x - same, z - diff
-                foreach (GameObject wall in GameObject.FindGameObjectsWithTag("Wall"))
-                {
-                    if (wall.transform.position.x == door[0] &&
-                        wall.transform.position.z >= corner1[1] &&
-                        wall.transform.position.z <= corner2[1])
-                    {
-                        if (wall.transform.position.z + wall.transform.localScale.z / 2 > corner2[1])
-                        {
-                            corner2[1] = Environment.Round_to_ten((int)(wall.transform.position.z + wall.transform.localScale.z / 2 - 1));
-                        }
-                        if (wall.transform.position.z - wall.transform.localScale.z / 2 < corner1[1])
-                        {
-                            corner1[1] = Environment.Round_to_ten((int)(wall.transform.position.z - wall.transform.localScale.z / 2 + 1));
+                int pos_x = (int)hit.transform.position.x;
+                int pos_z = (int)hit.transform.position.z;
 
-                        }
-                        //GameObject.Destroy(wall.GetComponent<BoxCollider>());
-                        GameObject.Destroy(wall);
-                    }
-                }
-                Build_Wall(corner1, new Vector2(door[0], door[1] - 4));
-                Build_Wall(corner2, new Vector2(door[0], door[1] + 4));
-                Build_door_tag(door);
-                break;
+                Vector2 corner1 = new Vector2();
+                Vector2 corner2 = new Vector2();
+                Vector2 door_bound1 = new Vector2();
+                Vector2 door_bound2 = new Vector2();
 
-            // if wall is horizontal
-            case "horizontal":
-                // check for other doors on the same wall
-                foreach (GameObject prev_door in GameObject.FindGameObjectsWithTag("Door"))
+                if (scale_x == 1) // vertical
                 {
-                    if (prev_door.transform.position.z == door[1] &&
-                        prev_door.transform.position.x >= corner1[0] &&
-                        prev_door.transform.position.x <= corner2[0])
-                    {
-                        if (Mathf.Abs(corner1[0] - prev_door.transform.position.x) < Mathf.Abs(corner2[0] - prev_door.transform.position.x))
-                        {
-                            corner1 = new Vector2(prev_door.transform.position.x + 4, prev_door.transform.position.z);
-                        }
-                        else
-                        {
-                            corner2 = new Vector2(prev_door.transform.position.x - 4, prev_door.transform.position.z);
-                        }
-                    }
-                }
-                // x - diff, z - same
-                foreach (GameObject wall in GameObject.FindGameObjectsWithTag("Wall"))
-                {
-                    if (wall.transform.position.z == door[1] &&
-                        wall.transform.position.x >= corner1[0] &&
-                        wall.transform.position.x <= corner2[0])
-                    {
-                        if (wall.transform.position.x + wall.transform.localScale.x / 2 > corner2[0])
-                        {
-                            corner2[0] = Environment.Round_to_ten((int)(wall.transform.position.x + wall.transform.localScale.x / 2));
-                        }
-                        if (wall.transform.position.x - wall.transform.localScale.x / 2 < corner1[0])
-                        {
-                            corner1[0] = Environment.Round_to_ten((int)(wall.transform.position.x - wall.transform.localScale.x / 2));
+                    corner1 = new Vector2(pos_x, pos_z + scale_z / 2);
+                    corner2 = new Vector2(pos_x, pos_z - scale_z / 2);
 
-                        }
-                        UnityEngine.Object.Destroy(wall);
-                    }
+                    door_bound1 = new Vector2(pos_x, door_z + 5);
+                    door_bound2 = new Vector2(pos_x, door_z - 5);
                 }
-                Build_Wall(corner1, new Vector2(door[0] - 4, door[1]));
-                Build_Wall(corner2, new Vector2(door[0] + 4, door[1]));
-                Build_door_tag(door);
-                break;
+                else // horizontal
+                {
+                    corner1 = new Vector2(pos_x + scale_x / 2, pos_z);
+                    corner2 = new Vector2(pos_x - scale_x / 2, pos_z);
+                    door_bound1 = new Vector2(door_x + 5, pos_z);
+                    door_bound2 = new Vector2(door_x - 5, pos_z);
+                }
+
+                //Debug.DrawLine(new Vector3(corner1[0], 30, corner1[1]), new Vector3(corner1[0], 0, corner1[1]), Color.green, 60f);
+                //Debug.DrawLine(new Vector3(corner2[0], 30, corner2[1]), new Vector3(corner2[0], 0, corner2[1]), Color.green, 60f);
+                //Debug.DrawLine(new Vector3(door_bound1[0], 30, door_bound1[1]), new Vector3(door_bound1[0], 0, door_bound1[1]), Color.yellow, 60f);
+                //Debug.DrawLine(new Vector3(door_bound2[0], 30, door_bound2[1]), new Vector3(door_bound2[0], 0, door_bound2[1]), Color.yellow, 60f);
+                //Debug.DrawLine(new Vector3(corner1[0], 30, corner1[1]),new Vector3(door_bound1[0], 30, door_bound1[1]), Color.magenta, 60f);
+                //Debug.DrawLine(new Vector3(corner2[0], 30, corner2[1]), new Vector3(door_bound2[0], 30, door_bound2[1]), Color.magenta, 60f);
+
+                Build_Wall(corner1, door_bound1);
+                Build_Wall(corner2, door_bound2);
+
+                Build_door_tag(door_pos);
+
+                GameObject.Destroy(hit.transform.gameObject);
+            }
+            
         }
-    }
 
-    public static void Build_wall__w_door_V2(Vector2 door_coords, string orientation)
-    {
 
     }
 }
