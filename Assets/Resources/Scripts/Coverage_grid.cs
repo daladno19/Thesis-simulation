@@ -54,13 +54,13 @@ public class Coverage_grid
                     if (hit.transform.tag == "Obstacle")
                     {
                         available = false;
-                        Debug.DrawLine(new Vector3(x,0,z), new Vector3(x,10,z), Color.blue, 60f);
+                        //Debug.DrawLine(new Vector3(x,0,z), new Vector3(x,10,z), Color.blue, 60f);
                         break;
                     }
                     if (hit.transform.tag == "Wall")
                     {
                         available = false;
-                        Debug.DrawLine(new Vector3(x, 0, z), new Vector3(x, 10, z), Color.red, 60f);
+                        //Debug.DrawLine(new Vector3(x, 0, z), new Vector3(x, 10, z), Color.red, 60f);
                         break;
                     }
 

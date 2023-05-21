@@ -10,7 +10,7 @@ public class controller_script : MonoBehaviour
         System.Random rnd = new System.Random();
 
         // get new  seed
-        int seed = 7873; //1978 - small seed // 7873 - broken seed
+        int seed = 0; //1978 - small seed // 7873 - broken seed
         if (seed == 0)
         {
             seed = rnd.Next(1, 10000);
@@ -49,7 +49,7 @@ public class controller_script : MonoBehaviour
 
 
         //spawn agents
-        int number_of_agents = 5;
+        int number_of_agents = 3;
         Quaternion[] rotations = { Quaternion.Euler(0, 0, 0), Quaternion.Euler(0, 90, 0), Quaternion.Euler(0, 180, 0), Quaternion.Euler(0, 270, 0) };
 
         do
@@ -59,7 +59,7 @@ public class controller_script : MonoBehaviour
             if (viablePos(pot_pos, number_of_agents))
             {
                 GameObject agent = GameObject.Instantiate(Resources.Load("Prefabs/Agent"), new Vector3(pot_pos.x, 1, pot_pos.z), rotations[rnd.Next(0, 4)]) as GameObject;
-                agent.GetComponent<Agent>().id = number_of_agents;
+                agent.GetComponent<AgentLogic>().id = number_of_agents;
                 number_of_agents--;
             }
 

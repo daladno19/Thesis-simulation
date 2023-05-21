@@ -444,7 +444,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2679416579417069720}
-  - component: {fileID: 2679416579417069721}
+  - component: {fileID: 1611576770634292894}
+  - component: {fileID: -2362109654110544442}
   m_Layer: 0
   m_Name: Agent
   m_TagString: Agent
@@ -472,7 +473,7 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &2679416579417069721
+--- !u!114 &1611576770634292894
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -481,25 +482,44 @@ MonoBehaviour:
   m_GameObject: {fileID: 2679416579417069723}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ac675260d774d4cdfb7a56ed5bf01b0b, type: 3}
+  m_Script: {fileID: 11500000, guid: 5d1c4e0b1822b495aa52bc52839ecb30, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Body: {fileID: 2679416579652569486}
-  Left_wheel: {fileID: 2679416578656953819}
-  Right_wheel: {fileID: 2679416578351862479}
-  id: 1
-  body_material_arr:
-  - {fileID: 2100000, guid: a108634556189da4b863e34d7c338cfe, type: 2}
-  - {fileID: 2100000, guid: 79a943c07ab3ce34c8ebbb7264158f12, type: 2}
-  - {fileID: 2100000, guid: 629a4f33f7b3c8a40ab84d36479c2bbf, type: 2}
-  - {fileID: 2100000, guid: 812b5472b08c7f840a634502cb2240eb, type: 2}
-  - {fileID: 2100000, guid: 5c61e8545c5b12349af9e510161d586b, type: 2}
-  trail_material_arr:
-  - {fileID: 2100000, guid: a43303cf8a8fed943a8efa9f3f1636a5, type: 2}
-  - {fileID: 2100000, guid: 336077cf21f130c40be8115cc3b05c0e, type: 2}
-  - {fileID: 2100000, guid: 71622bad47c949247afdf81170c78f89, type: 2}
-  - {fileID: 2100000, guid: 2d3040df3453465439b477de4bb14f98, type: 2}
-  - {fileID: 2100000, guid: ebb89d5979313f443ab9bf11e1f3792c, type: 2}
+  m_BrainParameters:
+    VectorObservationSize: 1
+    NumStackedVectorObservations: 1
+    m_ActionSpec:
+      m_NumContinuousActions: 0
+      BranchSizes: 01000000
+    VectorActionSize: 01000000
+    VectorActionDescriptions: []
+    VectorActionSpaceType: 0
+    hasUpgradedBrainParametersWithActionSpec: 1
+  m_Model: {fileID: 0}
+  m_InferenceDevice: 0
+  m_BehaviorType: 0
+  m_BehaviorName: Coverage
+  TeamId: 0
+  m_UseChildSensors: 1
+  m_UseChildActuators: 1
+  m_DeterministicInference: 0
+  m_ObservableAttributeHandling: 0
+--- !u!114 &-2362109654110544442
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2679416579417069723}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 866f864558bf30a478aba500aa4bb043, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  agentParameters:
+    maxStep: 0
+  hasUpgradedFromAgentParameters: 1
+  MaxStep: 0
 --- !u!1 &2679416579652569486
 GameObject:
   m_ObjectHideFlags: 0

@@ -266,43 +266,8 @@ public class Furniture_grid
         return new Vector2(array_i, array_j);
     }
 
-    // array coords to global coords
-    public Vector2 array_to_global(Vector2 global_coords)
-    {
-        int pos_x = (int)global_coords[0] + (int)this.room_center[0] - (int)this.room_dimensions[0] / 2;
-        int pos_y = (int)global_coords[1] + (int)this.room_center[1] - (int)this.room_dimensions[1] / 2;
-        return new Vector2(pos_x, pos_y);
-    }
-
     // fucking magic 0 idea what a delegate is
     public delegate Furniture Furniture_delegate();
-
-    // debugging function to draw rays on all occupied tiles
-    public void Draw_obstacles(Furniture_tile[,] grid)
-    {
-        foreach (Furniture_tile tile in grid)
-        {
-            if (!tile.available)
-            {
-                Debug.DrawLine(new Vector3(tile.pos_x, 0, tile.pos_z), new Vector3(tile.pos_x, 20, tile.pos_z), Color.red, 60f);
-            }
-        }
-    }
-
-    // function to calculate current density
-    public float Get_current_density(Furniture_tile[,] grid)
-    {
-        float occupied = 0;
-        float all = grid.Length;
-        //Debug.Log("occupied: " + occupied + " || all" + all) ;
-
-        foreach (Furniture_tile tile in grid)
-        {
-            if (!tile.available) occupied++;
-            //Debug.Log("YEp");
-        }
-        return occupied/all;
-    }
 }
 
 public class Furniture_tile

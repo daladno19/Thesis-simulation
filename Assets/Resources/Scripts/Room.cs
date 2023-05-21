@@ -80,7 +80,7 @@ public struct Room
 
     public static void Door(Vector2 door_pos)
     {
-        Debug.DrawLine(new Vector3(door_pos.x, 30, door_pos.y), new Vector3(door_pos.x, 0, door_pos.y), Color.red, 60f);
+        //Debug.DrawLine(new Vector3(door_pos.x, 30, door_pos.y), new Vector3(door_pos.x, 0, door_pos.y), Color.red, 60f);
 
         int door_x = (int)door_pos.x;
         int door_z = (int)door_pos.y;
