@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 7205993300048788587}
   - component: {fileID: 8634276183368810993}
   - component: {fileID: 8868013681002223702}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Cube
   m_TagString: Obstacle
   m_Icon: {fileID: 0}
@@ -109,7 +109,7 @@ GameObject:
   - component: {fileID: 989504452588956400}
   - component: {fileID: 4984020601577708264}
   - component: {fileID: 3154537632472071151}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Cube
   m_TagString: Obstacle
   m_Icon: {fileID: 0}
@@ -206,7 +206,7 @@ GameObject:
   - component: {fileID: 5917127982165852007}
   - component: {fileID: 6015393251907557710}
   - component: {fileID: 5474233691007484056}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Big_Couch
   m_TagString: Obstacle
   m_Icon: {fileID: 0}
@@ -306,7 +306,7 @@ GameObject:
   - component: {fileID: 4526844210389309325}
   - component: {fileID: 2145058079241946311}
   - component: {fileID: 3644642528481202367}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Cube
   m_TagString: Obstacle
   m_Icon: {fileID: 0}

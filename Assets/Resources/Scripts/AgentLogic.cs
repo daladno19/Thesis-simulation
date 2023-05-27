@@ -15,7 +15,7 @@ public class AgentLogic : MonoBehaviour
     private Material body_material;
     private Material trail_material;
 
-    // Start is called before the first frame update
+    /*// Start is called before the first frame update
     void Start()
     {
         this.body_material = body_material_arr[id - 1];
@@ -25,7 +25,7 @@ public class AgentLogic : MonoBehaviour
 
         Color[] colors = {Color.blue, Color.green, Color.magenta, Color.red, Color.yellow};
         this.ray_color = colors[id - 1];
-    }
+    }*/
 
     // Update is called once per frame
     void Update()

@@ -18,11 +18,10 @@ public class controller_script : MonoBehaviour
         Debug.Log(seed);
 
         System.Random rnd_seed = new System.Random(seed);
-        // build environment skeleton
-        Environment environment = new Environment(seed);
+        //Environment environment = new Environment(seed);
 
         // find max x and max z
-        int max_x = 0;
+       /* int max_x = 0;
         int max_z = 0;
 
         foreach (Room room in environment.room_list)
@@ -34,7 +33,7 @@ public class controller_script : MonoBehaviour
                 if (corner[1] > max_z)
                     max_z = (int)corner[1];
             }
-        }
+        }*/
 
 
 
@@ -48,7 +47,7 @@ public class controller_script : MonoBehaviour
 
 
 
-        //spawn agents
+        /*//spawn agents
         int number_of_agents = 3;
         Quaternion[] rotations = { Quaternion.Euler(0, 0, 0), Quaternion.Euler(0, 90, 0), Quaternion.Euler(0, 180, 0), Quaternion.Euler(0, 270, 0) };
 
@@ -64,9 +63,9 @@ public class controller_script : MonoBehaviour
             }
 
         }
-        while (number_of_agents != 0);
+        while (number_of_agents != 0);*/
 
-        Coverage_grid coverage = new Coverage_grid(environment);
+        //Coverage_grid coverage = new Coverage_grid(environment);
     }
 
     public bool viablePos(Vector3 pos, int id)

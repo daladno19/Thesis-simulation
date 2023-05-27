@@ -42,6 +42,7 @@ public struct Room
                 break;
         }
         floor.tag = "Floor";
+        floor.layer = 9;
 
         // calculating room corners
         room_corners = new Vector2[4];
@@ -67,6 +68,7 @@ public struct Room
         wall.tag = "Wall";
         GameObject.Destroy(wall.GetComponent<BoxCollider>());
         wall.AddComponent<BoxCollider>();
+        wall.layer = 9;
     }
 
     //function to create invisible door
@@ -76,6 +78,7 @@ public struct Room
         door.transform.position = new Vector3(door_coords[0], -5, door_coords[1]);
         door.transform.localScale = new Vector3(0.5f, 0.5f, 0.5f);
         door.tag = "Door";
+        door.layer = 9;
     }
 
     public static void Door(Vector2 door_pos)

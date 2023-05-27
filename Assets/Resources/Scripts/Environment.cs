@@ -12,7 +12,17 @@ public class Environment
     public Environment(int seed)
     {
         // init seeded random
-        System.Random rnd = new System.Random(seed);
+
+        System.Random rnd;
+        if (seed == 0)
+        {
+            rnd = new System.Random();
+        }
+        else 
+        {
+            rnd = new System.Random(seed);
+        }
+        
 
         // getting random number of rooms
         this.number_of_rooms = rnd.Next(2, 5);
@@ -59,8 +69,27 @@ public class Environment
 
             //make a door between new_room and prev_room
             Cut_door(new_room, prev_room);
-
         }
+        GameObject Camera = GameObject.FindGameObjectWithTag("MainCamera");
+        int max_x = 0;
+        int max_z = 0;
+
+        foreach (Room room in room_list)
+        {
+            foreach (Vector2 corner in room.room_corners)
+            {
+                if (corner[0] > max_x)
+                    max_x = (int)corner[0];
+                if (corner[1] > max_z)
+                    max_z = (int)corner[1];
+            }
+        }
+
+        Camera.transform.position = new Vector3(max_x / 2, max_x / 2 + max_z / 2, max_z / 2);
+        if (max_z < max_x)
+            max_z = max_x;
+        Camera.GetComponent<Camera>().orthographicSize = max_z / 2 + 5;
+
     }
 
     public static int Round_to_ten(int number)

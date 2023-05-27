@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 230736414897137024}
   - component: {fileID: 8436405042735999132}
   - component: {fileID: 6423513381624054337}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Glass_Table
   m_TagString: Obstacle
   m_Icon: {fileID: 0}
@@ -113,7 +113,7 @@ GameObject:
   - component: {fileID: 4802149024766657714}
   - component: {fileID: 2384369247744651163}
   - component: {fileID: 3519226023764969907}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Cube (3)
   m_TagString: Obstacle
   m_Icon: {fileID: 0}
@@ -210,7 +210,7 @@ GameObject:
   - component: {fileID: 5691968421735511506}
   - component: {fileID: 8269718650758864845}
   - component: {fileID: 1563090171082011032}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Cube (2)
   m_TagString: Obstacle
   m_Icon: {fileID: 0}
@@ -307,7 +307,7 @@ GameObject:
   - component: {fileID: 6960316240332416402}
   - component: {fileID: 5668142778799991544}
   - component: {fileID: 6687554373415032792}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Cube
   m_TagString: Obstacle
   m_Icon: {fileID: 0}
@@ -404,7 +404,7 @@ GameObject:
   - component: {fileID: 1727502647534350320}
   - component: {fileID: 6447788260077605373}
   - component: {fileID: 2278261890619458321}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Cube (1)
   m_TagString: Obstacle
   m_Icon: {fileID: 0}

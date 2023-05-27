@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 2358553244441903902}
   - component: {fileID: 5208097753959908077}
   - component: {fileID: 6003574097084806516}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Bedroom_Counter
   m_TagString: Obstacle
   m_Icon: {fileID: 0}
